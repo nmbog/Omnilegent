@@ -16,11 +16,21 @@ CREATE OR REPLACE TABLE Users (
     PRIMARY KEY (userID)
 );
 
-CREATE REPLACE TABLE Books (
+/* Create Books table */
+CREATE OR REPLACE TABLE Books (
     ISBN int NOT NULL UNIQUE,
     title varchar(45) NOT NULL,
     authorID int NOT NULL,
     genreID int NOT NULL,
-    bookDescription TEXT 
+    bookDescription TEXT,
+    PRIMARY KEY (ISBN),
+    FOREIGN KEY (authorID) REFERENCES Authors (authorID),
+    FOREIGN KEY (genreID) REFERENCES Genres (genreID)
 );
+
+/* Create Authors table */
+CREATE OR REPLACE TABLE Authors (
+    authorID int NOT NULL AUTO_INCREMENT UNIQUE,
+
+)
 
