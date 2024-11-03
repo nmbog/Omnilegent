@@ -23,7 +23,7 @@ CREATE OR REPLACE TABLE Authors (
     fullName varchar(255) NOT NULL,
     authorBio TEXT,
     PRIMARY KEY (authorID),
-    UNIQUE (authorID, fullName),
+    UNIQUE (authorID, fullName)
 );
 
 /* Create Genres table */
