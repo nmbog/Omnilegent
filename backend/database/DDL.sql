@@ -22,9 +22,14 @@ CREATE OR REPLACE TABLE Authors (
     fullName varchar(255) NOT NULL UNIQUE,
     authorBio TEXT,
     PRIMARY KEY (authorID)
-)
+);
 
 /* Create Genres table */
+CREATE OR REPLACE TABLE Genres (
+    genreID int NOT NULL AUTO_INCREMENT UNIQUE,
+    genre varchar(255) NOT NULL,
+    PRIMARY KEY (genreID)
+);
 
 /* Create Books table */
 CREATE OR REPLACE TABLE Books (
