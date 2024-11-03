@@ -11,10 +11,20 @@ DROP TABLE IF EXISTS UserBookStatus;
 CREATE OR REPLACE TABLE Users (
     userID int NOT NULL AUTO_INCREMENT UNIQUE, 
     username varchar(45) NOT NULL UNIQUE,
-    email varchar(45) NOT NULL,
+    email varchar(255) NOT NULL,
     userPassword varchar(45) NOT NULL,
     PRIMARY KEY (userID)
 );
+
+/* Create Authors table */
+CREATE OR REPLACE TABLE Authors (
+    authorID int NOT NULL AUTO_INCREMENT UNIQUE,
+    fullName varchar(255) NOT NULL UNIQUE,
+    authorBio TEXT,
+    PRIMARY KEY (authorID)
+)
+
+/* Create Genres table */
 
 /* Create Books table */
 CREATE OR REPLACE TABLE Books (
@@ -28,9 +38,5 @@ CREATE OR REPLACE TABLE Books (
     FOREIGN KEY (genreID) REFERENCES Genres (genreID)
 );
 
-/* Create Authors table */
-CREATE OR REPLACE TABLE Authors (
-    authorID int NOT NULL AUTO_INCREMENT UNIQUE,
 
-)
 
