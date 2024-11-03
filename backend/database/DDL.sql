@@ -8,35 +8,34 @@ DROP TABLE IF EXISTS Genres;
 DROP TABLE IF EXISTS UserBookStatus;
 
 /* Create Users table */
-CREATE OR REPLACE TABLE Users (
+CREATE TABLE Users (
     userID int NOT NULL AUTO_INCREMENT, 
     username varchar(45) NOT NULL,
     email varchar(255) NOT NULL,
-    userPassword varchar(45) NOT NULL,
+    userPassword varchar(255) NOT NULL,
     PRIMARY KEY (userID),
     UNIQUE (username)
 );
 
 /* Create Authors table */
-CREATE OR REPLACE TABLE Authors (
+CREATE TABLE Authors (
     authorID int NOT NULL AUTO_INCREMENT,
     fullName varchar(255) NOT NULL,
     authorBio TEXT,
-    PRIMARY KEY (authorID),
-    UNIQUE (fullName)
+    PRIMARY KEY (authorID)
 );
 
 /* Create Genres table */
-CREATE OR REPLACE TABLE Genres (
+CREATE TABLE Genres (
     genreID int NOT NULL AUTO_INCREMENT,
     genre varchar(255) NOT NULL,
     PRIMARY KEY (genreID)
 );
 
 /* Create Books table */
-CREATE OR REPLACE TABLE Books (
-    ISBN int NOT NULL,
-    title varchar(45) NOT NULL,
+CREATE TABLE Books (
+    ISBN bigint NOT NULL,
+    title varchar(255) NOT NULL,
     authorID int NOT NULL,
     genreID int NOT NULL,
     bookDescription TEXT,
@@ -46,7 +45,7 @@ CREATE OR REPLACE TABLE Books (
 );
 
 /* Create UserBookStatus table */
-CREATE OR REPLACE TABLE UserBookStatus (
+CREATE TABLE UserBookStatus (
     statusID int NOT NULL AUTO_INCREMENT,
     userID int NOT NULL,
     ISBN int NOT NULL,
