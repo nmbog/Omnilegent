@@ -43,5 +43,17 @@ CREATE OR REPLACE TABLE Books (
     FOREIGN KEY (genreID) REFERENCES Genres (genreID)
 );
 
+/* Create UserBookStatus table */
+CREATE OR REPLACE TABLE UserBookStatus (
+    statusID int NOT NULL AUTO_INCREMENT UNIQUE,
+    userID int NOT NULL,
+    ISBN int NOT NULL,
+    readingStatus ENUM('Completed', 'In Progress', 'Not Started', 'Did Not Finish'),
+    startDate DATE,
+    finishDate DATE,
+    PRIMARY KEY (statusID),
+    FOREIGN KEY (userID) REFERENCES Users (userID),
+    FOREIGN KEY (ISBN) REFERENCES Books (ISBN)
+);
 
 
