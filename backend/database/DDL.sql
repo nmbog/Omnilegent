@@ -10,11 +10,11 @@ DROP TABLE IF EXISTS UserBookStatus;
 /* Create Users table */
 CREATE OR REPLACE TABLE Users (
     userID int NOT NULL AUTO_INCREMENT, 
-    username varchar(45) NOT NULL UNIQUE,
+    username varchar(45) NOT NULL,
     email varchar(255) NOT NULL,
     userPassword varchar(45) NOT NULL,
     PRIMARY KEY (userID),
-    UNIQUE (userID, username)
+    UNIQUE (username)
 );
 
 /* Create Authors table */
@@ -23,15 +23,14 @@ CREATE OR REPLACE TABLE Authors (
     fullName varchar(255) NOT NULL,
     authorBio TEXT,
     PRIMARY KEY (authorID),
-    UNIQUE (authorID, fullName)
+    UNIQUE (fullName)
 );
 
 /* Create Genres table */
 CREATE OR REPLACE TABLE Genres (
     genreID int NOT NULL AUTO_INCREMENT,
     genre varchar(255) NOT NULL,
-    PRIMARY KEY (genreID),
-    UNIQUE (genreID)
+    PRIMARY KEY (genreID)
 );
 
 /* Create Books table */
@@ -43,8 +42,7 @@ CREATE OR REPLACE TABLE Books (
     bookDescription TEXT,
     PRIMARY KEY (ISBN),
     FOREIGN KEY (authorID) REFERENCES Authors (authorID),
-    FOREIGN KEY (genreID) REFERENCES Genres (genreID),
-    UNIQUE (ISBN)
+    FOREIGN KEY (genreID) REFERENCES Genres (genreID)
 );
 
 /* Create UserBookStatus table */
@@ -57,8 +55,7 @@ CREATE OR REPLACE TABLE UserBookStatus (
     finishDate DATE,
     PRIMARY KEY (statusID),
     FOREIGN KEY (userID) REFERENCES Users (userID),
-    FOREIGN KEY (ISBN) REFERENCES Books (ISBN),
-    UNIQUE (statusID)
+    FOREIGN KEY (ISBN) REFERENCES Books (ISBN)
 );
 
 
