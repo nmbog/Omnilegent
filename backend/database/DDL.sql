@@ -17,5 +17,10 @@ CREATE OR REPLACE TABLE Users (
 );
 
 CREATE REPLACE TABLE Books (
-
+    ISBN int NOT NULL UNIQUE,
+    title varchar(45) NOT NULL,
+    authorID int NOT NULL,
+    genreID int NOT NULL,
+    bookDescription TEXT 
 );
+
