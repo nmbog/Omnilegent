@@ -1,8 +1,5 @@
 /* SETUP */
 require('dotenv').config();
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-app.use(express.json()); // Parse JSON bodies
-app.use(express.static('public'));
 
 var bcrypt = require('bcrypt');
 var mysql = require('mysql');
@@ -10,6 +7,11 @@ var jwt = require('jsonwebtoken');
 var secretKey = 'your_secret_key';
 var express = require('express');
 var app = express();
+
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(express.json()); // Parse JSON bodies
+app.use(express.static('public'));
+
 PORT = 9124;
 
 // DB
@@ -23,7 +25,7 @@ function generateToken(username) {
 // Verify JWT
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
-    const token - authHeader && authHeader.split(' ')[1];
+    const token = authHeader && authHeader.split(' ')[1];
     if (!token) {
         return res.status(401).send('Access denied');
     }
@@ -63,7 +65,7 @@ app.post('/register', async(req, res) => {
     try {
         const { username, userPassword } = req.body;
         const hashedPassword = await bcrypt.hash(userPassword, 10);
-        const sql = "INSERT INTO Users (username, userPassword) VALUES (?, >)";
+        const sql = "INSERT INTO Users (username, userPassword) VALUES (?, ?)";
         db.pool.query(sql, [username, hashedPassword], (err, result) => {
             if (err) throw err;
             res.status(201).send('User registration was successful');
@@ -96,6 +98,12 @@ app.post('/login', async(req, res) => {
         res.status(500).send('Error loggin in');
     }
 })
+
+// User is logged in
+app.post('/protected', authenticateToken, (req, res) => {
+    const {username } = req.user;
+    res.send(`Welcome ${username}!`);
+});
 
 /* LISTENER */
 app.listen(PORT, function() {
