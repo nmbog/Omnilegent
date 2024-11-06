@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 var bcrypt = require('bcrypt');
+var mysql = require('mysql');
 var express = require('express');
 var app = express();
 PORT = 9124;
@@ -20,6 +21,12 @@ app.get('/', function(req, res)
     {
         res.render('index');
     });
+
+app.post('/register', async(req, res) => {
+    try {
+        const { username, password }
+    }
+})
 
 /* LISTENER */
 app.listen(PORT, function() {

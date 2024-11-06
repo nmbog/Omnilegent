@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS UserBookStatus;
 CREATE TABLE Users (
     userID int NOT NULL AUTO_INCREMENT, 
     username varchar(45) NOT NULL,
-    email varchar(255) NOT NULL,
     userPassword varchar(255) NOT NULL,
     PRIMARY KEY (userID),
     UNIQUE (username)
