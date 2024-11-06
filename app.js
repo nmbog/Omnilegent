@@ -91,7 +91,7 @@ app.post('/login', async(req, res) => {
                 return res.status(401).send('Invalid username or password');
             }
             // Generate JWT token
-            const token = jwt.sign({ username: user.username}, secretKey, {expiresIn: '1h' });
+            const token = jwt.sign({ username: user.username}, secretKey, { expiresIn: '1h' });
             res.json({ token });
         });
     } catch (error) {
@@ -100,7 +100,7 @@ app.post('/login', async(req, res) => {
 })
 
 // User is logged in
-app.post('/protected', authenticateToken, (req, res) => {
+app.get('/protected', authenticateToken, (req, res) => {
     const {username } = req.user;
     res.send(`Welcome ${username}!`);
 });
