@@ -57,6 +57,18 @@ CREATE TABLE UserBookStatus (
     FOREIGN KEY (ISBN) REFERENCES Books (ISBN)
 );
 
+/* Insert into Authors */
+INSERT INTO Authors (fullName)
+VALUES ("Stephen King");
+
+/* Insert into Genres */
+INSERT INTO Genres (genre)
+VALUES ("Horror");
+
+/* Insert into Books */
+INSERT INTO Books (ISBN, title, authorID, genreID, bookDescription)
+VALUES (9780450040184, "The Shining", 1, 1, "Jack Torrance, his wife Wendy, and their young son Danny move into the Overlook Hotel, where Jack has been hired as the winter caretaker. Cut off from civilization for months, Jack hopes to battle alcoholism and uncontrolled rage while writing a play. Evil forces residing in the Overlook – which has a long and violent history – covet young Danny for his precognitive powers and exploit Jack’s weaknesses to try to claim the boy.");
+
 
 SET FOREIGN_KEY_CHECKS=1;
 SET AUTOCOMMIT=1;
