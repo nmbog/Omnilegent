@@ -87,23 +87,30 @@ app.post('/login', async(req, res) => {
             }
             const user = results[0];
             const passwordMatch = await bcrypt.compare(userPassword, user.userPassword);
-            if (!passwordMatch) {
+            if (passwordMatch) {
+                // Generate JWT token
+                const token = jwt.sign({ username: user.username}, secretKey, { expiresIn: '1h' });
+                res.json({ token });
+            } else {
                 return res.status(401).send('Invalid username or password');
             }
-            // Generate JWT token
-            const token = jwt.sign({ username: user.username}, secretKey, { expiresIn: '1h' });
-            res.json({ token });
         });
     } catch (error) {
         res.status(500).send('Error loggin in');
     }
-})
+});
 
 // User is logged in
 app.get('/protected', authenticateToken, (req, res) => {
     const {username } = req.user;
     res.send(`Welcome ${username}!`);
 });
+
+//Get token
+app.get('/getJWTData', authenticateToken, (req, res) => {
+    res.status(200).json({ username: req.user });
+});
+
 
 /* LISTENER */
 app.listen(PORT, function() {
