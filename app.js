@@ -1,5 +1,7 @@
 /* SETUP */
+require('dotenv').config();
 
+var bcrypt = require('bcrypt');
 var express = require('express');
 var app = express();
 PORT = 9124;
