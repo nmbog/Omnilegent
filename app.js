@@ -4,6 +4,7 @@ require('dotenv').config();
 var bcrypt = require('bcrypt');
 var mysql = require('mysql');
 var jwt = require('jsonwebtoken');
+var cookieParser = require('cookie-parser');
 var secretKey = 'your_secret_key';
 var express = require('express');
 var app = express();
@@ -11,6 +12,7 @@ var app = express();
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(express.json()); // Parse JSON bodies
 app.use(express.static('public'));
+app.use(cookieParser());
 
 PORT = 9124;
 
@@ -24,19 +26,33 @@ function generateToken(username) {
 
 // Verify JWT
 function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (!token) {
-        return res.status(401).send('Access denied');
-    }
-    jwt.verify(token, secretKey, (err, user) => {
-        if (err) {
-            return res.status(403).send('Invalid token');
-        }
-        req.user = user;
-        next();
-    });
-}
+     // Look for token in Authorization header (if using Authorization header)
+     const authHeader = req.headers['authorization'];
+     const token = authHeader && authHeader.split(' ')[1];
+ 
+     // Alternatively, look for token in cookies
+     const tokenFromCookies = req.cookies.jwt;
+ 
+     if (tokenFromCookies) {
+         jwt.verify(tokenFromCookies, secretKey, (err, user) => {
+             if (err) {
+                 return res.status(403).send('Invalid token');
+             }
+             req.user = user; // Attach user info to request
+             next();
+         });
+     } else if (token) {
+         jwt.verify(token, secretKey, (err, user) => {
+             if (err) {
+                 return res.status(403).send('Invalid token');
+             }
+             req.user = user; // Attach user info to request
+             next();
+         });
+     } else {
+         res.status(401).send('Access denied');
+     }
+ }
 
 // Handlebars
 const { engine } = require('express-handlebars');
@@ -90,7 +106,8 @@ app.post('/login', async(req, res) => {
             if (passwordMatch) {
                 // Generate JWT token
                 const token = jwt.sign({ username: user.username}, secretKey, { expiresIn: '1h' });
-                res.json({ token });
+                res.cookie('jwt', token, { httpOnly: true, secure: false, maxAge: 3600000});
+                return res.redirect('/protected');
             } else {
                 return res.status(401).send('Invalid username or password');
             }
@@ -103,7 +120,7 @@ app.post('/login', async(req, res) => {
 // User is logged in
 app.get('/protected', authenticateToken, (req, res) => {
     const {username } = req.user;
-    res.send(`Welcome ${username}!`);
+    res.render('protected', { username });
 });
 
 //Get token
