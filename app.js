@@ -123,11 +123,6 @@ app.get('/protected', authenticateToken, (req, res) => {
     res.render('protected', { username });
 });
 
-//Get token
-app.get('/getJWTData', authenticateToken, (req, res) => {
-    res.status(200).json({ username: req.user });
-});
-
 
 /* LISTENER */
 app.listen(PORT, function() {
