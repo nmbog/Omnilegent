@@ -202,57 +202,83 @@ app.post('/add-new-book', authenticateToken, (req, res) => {
 
         const userID = results[0].userID;
 
-        // Ensure the author exists
-        const authorQuery = `
-            INSERT INTO Authors (fullName)
-            VALUES (?)
-            ON DUPLICATE KEY UPDATE authorID = LAST_INSERT_ID(authorID)
+        // Check if the author already exists
+        const checkAuthorQuery = `
+            SELECT authorID FROM Authors WHERE fullName = ?
         `;
-        db.pool.query(authorQuery, [author], (err, authorResult) => {
+        db.pool.query(checkAuthorQuery, [author], (err, authorResult) => {
             if (err) {
-                return res.status(500).send('Error adding author');
+                return res.status(500).send('Error checking if author exists');
             }
 
-            const authorID = authorResult.insertId;
+            let authorID;
 
-            // Ensure the genre exists
+            if (authorResult.length > 0) {
+                // Author already exists, use the existing authorID
+                authorID = authorResult[0].authorID;
+            } else {
+                // Author does not exist, insert the new author
+                const authorQuery = `
+                    INSERT INTO Authors (fullName)
+                    VALUES (?)
+                `;
+                db.pool.query(authorQuery, [author], (err, authorInsertResult) => {
+                    if (err) {
+                        return res.status(500).send('Error adding author');
+                    }
+
+                    // Get the authorID from the newly inserted author
+                    authorID = authorInsertResult.insertId;
+                });
+            }
+
+            // Ensure the genre exists (using INSERT IGNORE to avoid duplicates)
             const genreQuery = `
-                INSERT INTO Genres (genre)
+                INSERT IGNORE INTO Genres (genre)
                 VALUES (?)
-                ON DUPLICATE KEY UPDATE genreID = LAST_INSERT_ID(genreID)
             `;
             db.pool.query(genreQuery, [genre], (err, genreResult) => {
                 if (err) {
                     return res.status(500).send('Error adding genre');
                 }
 
-                const genreID = genreResult.insertId;
-
-                // Add the book
-                const bookQuery = `
-                    INSERT INTO Books (ISBN, title, authorID, genreID)
-                    VALUES (?, ?, ?, ?)
-                    ON DUPLICATE KEY UPDATE title = VALUES(title)
+                // Get the genreID (in case it was already inserted)
+                const getGenreIdQuery = `
+                    SELECT genreID FROM Genres WHERE genre = ?
                 `;
-                db.pool.query(bookQuery, [ISBN, title, authorID, genreID], (err) => {
+                db.pool.query(getGenreIdQuery, [genre], (err, genreResult) => {
                     if (err) {
-                        return res.status(500).send('Error adding book');
+                        return res.status(500).send('Error retrieving genre ID');
                     }
 
-                    // Add the book to the user's tracked books
-                    const userBookQuery = `
-                        INSERT INTO UserBookStatus (userID, ISBN, readingStatus, startDate, finishDate)
-                        VALUES (?, ?, ?, ?, ?)
-                    `;
-                    const status = readingStatus || null;
-                    const start = startDate || null;
-                    const finish = finishDate || null;
+                    const genreID = genreResult[0].genreID;
 
-                    db.pool.query(userBookQuery, [userID, ISBN, status, start, finish], (err) => {
+                    // Add the book
+                    const bookQuery = `
+                        INSERT INTO Books (ISBN, title, authorID, genreID)
+                        VALUES (?, ?, ?, ?)
+                        ON DUPLICATE KEY UPDATE title = VALUES(title)
+                    `;
+                    db.pool.query(bookQuery, [ISBN, title, authorID, genreID], (err) => {
                         if (err) {
-                            return res.status(500).send('Error tracking book');
+                            return res.status(500).send('Error adding book');
                         }
-                        res.redirect('/protected');
+
+                        // Add the book to the user's tracked books
+                        const userBookQuery = `
+                            INSERT INTO UserBookStatus (userID, ISBN, readingStatus, startDate, finishDate)
+                            VALUES (?, ?, ?, ?, ?)
+                        `;
+                        const status = readingStatus || null;
+                        const start = startDate || null;
+                        const finish = finishDate || null;
+
+                        db.pool.query(userBookQuery, [userID, ISBN, status, start, finish], (err) => {
+                            if (err) {
+                                return res.status(500).send('Error tracking book');
+                            }
+                            res.redirect('/protected');
+                        });
                     });
                 });
             });
