@@ -1,0 +1,81 @@
+<h1>Search Results for "{{searchQuery}}"</h1>
+
+<!-- Search Results -->
+{{#if searchResults.length}}
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each searchResults}}
+        <tr>
+            <td>{{this.BookTitle}}</td>
+            <td>{{this.AuthorFullName}}</td>
+            <td>{{this.Genre}}</td>
+            <td>
+                <!-- Form to Add Book to Tracked List -->
+                <form method="POST" action="/search-add-book">
+                    <input type="hidden" name="action" value="add" />
+                    <input type="hidden" name="ISBN" value="{{this.ISBN}}" />
+                    <label for="readingStatus">Status:</label>
+                    <select name="readingStatus" required>
+                        <option value="Not Started">Not Started</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Did Not Finish">Did Not Finish</option>
+                    </select>
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" name="startDate" />
+                    <label for="finishDate">Finish Date:</label>
+                    <input type="date" name="finishDate" />
+                    <button type="submit">Add to Tracked</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+<p>No books found for "{{searchQuery}}".</p>
+
+<!-- Form to Add a New Book -->
+<h2>Add a New Book</h2>
+<form action="/add-new-book" method="POST">
+    <label for="ISBN">ISBN:</label>
+    <input type="text" id="ISBN" name="ISBN" required>
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="author">Author:</label>
+    <input type="text" id="author" name="author" required>
+
+    <label for="genre">Genre:</label>
+    <input type="text" id="genre" name="genre" required>
+
+    <label for="readingStatus">Status:</label>
+    <select id="readingStatus" name="readingStatus">
+        <option value="">--Select--</option>
+        <option value="Completed">Completed</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Not Started">Not Started</option>
+        <option value="Did Not Finish">Did Not Finish</option>
+    </select>
+
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate">
+
+    <label for="finishDate">Finish Date:</label>
+    <input type="date" id="finishDate" name="finishDate">
+
+    <button type="submit">Add Book</button>
+</form>
+{{/if}}
+
+<!-- Back to User's Tracked Books -->
+<a href="/protected">Back to My Books</a>

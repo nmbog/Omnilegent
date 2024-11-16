@@ -125,6 +125,141 @@ app.post('/login', async(req, res) => {
     }
 });
 
+// Search Books
+app.post('/search-add-book', authenticateToken, (req, res) => {
+    const { username } = req.user;
+    const { searchQuery, action } = req.body;
+
+    if (action === "search") {
+        // Search for books matching the query
+        const searchSql = `
+            SELECT b.ISBN, b.title AS BookTitle, a.fullName AS AuthorFullName, g.genre AS Genre
+            FROM Books b
+            JOIN Authors a ON b.authorID = a.authorID
+            JOIN Genres g ON b.genreID = g.genreID
+            WHERE b.title LIKE ? OR a.fullName LIKE ? OR g.genre LIKE ?
+        `;
+
+        db.pool.query(
+            searchSql,
+            [`%${searchQuery}%`, `%${searchQuery}%`, `%${searchQuery}%`],
+            (err, results) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send("Error searching for books.");
+                }
+
+                // Render results on the page
+                res.render('search-add-book', {
+                    username,
+                    searchQuery,
+                    searchResults: results,
+                });
+            }
+        );
+    } else if (action === "add") {
+        // Add the selected book to the user's tracked list
+        const { ISBN, readingStatus, startDate, finishDate } = req.body;
+
+        const addSql = `
+            INSERT INTO UserBookStatus (userID, ISBN, readingStatus, startDate, finishDate)
+            VALUES (
+                (SELECT userID FROM Users WHERE username = ?),
+                ?, ?, ?, ?
+            )
+        `;
+
+        // accounts for fields that user leaves blank -- these fields are not required
+        const status = readingStatus || null;
+        const start = startDate || null;
+        const finish = finishDate || null;
+
+        db.pool.query(
+            addSql,
+            [username, ISBN, status, start, finish],
+            (err) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send("Error adding book to tracked list.");
+                }
+                res.redirect('/protected'); // Redirect back to the user's tracked books
+            }
+        );
+    }
+});
+
+// Add a book if not in DB
+app.post('/add-new-book', authenticateToken, (req, res) => {
+    const { ISBN, title, author, genre, readingStatus, startDate, finishDate } = req.body;
+    const { username } = req.user;
+
+    // Get the userID for the logged-in user
+    const findUserIdQuery = "SELECT userID FROM Users WHERE username = ?";
+    db.pool.query(findUserIdQuery, [username], (err, results) => {
+        if (err) {
+            return res.status(500).send('Error finding user ID');
+        }
+
+        const userID = results[0].userID;
+
+        // Ensure the author exists
+        const authorQuery = `
+            INSERT INTO Authors (fullName)
+            VALUES (?)
+            ON DUPLICATE KEY UPDATE authorID = LAST_INSERT_ID(authorID)
+        `;
+        db.pool.query(authorQuery, [author], (err, authorResult) => {
+            if (err) {
+                return res.status(500).send('Error adding author');
+            }
+
+            const authorID = authorResult.insertId;
+
+            // Ensure the genre exists
+            const genreQuery = `
+                INSERT INTO Genres (genre)
+                VALUES (?)
+                ON DUPLICATE KEY UPDATE genreID = LAST_INSERT_ID(genreID)
+            `;
+            db.pool.query(genreQuery, [genre], (err, genreResult) => {
+                if (err) {
+                    return res.status(500).send('Error adding genre');
+                }
+
+                const genreID = genreResult.insertId;
+
+                // Add the book
+                const bookQuery = `
+                    INSERT INTO Books (ISBN, title, authorID, genreID)
+                    VALUES (?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE title = VALUES(title)
+                `;
+                db.pool.query(bookQuery, [ISBN, title, authorID, genreID], (err) => {
+                    if (err) {
+                        return res.status(500).send('Error adding book');
+                    }
+
+                    // Add the book to the user's tracked books
+                    const userBookQuery = `
+                        INSERT INTO UserBookStatus (userID, ISBN, readingStatus, startDate, finishDate)
+                        VALUES (?, ?, ?, ?, ?)
+                    `;
+                    const status = readingStatus || null;
+                    const start = startDate || null;
+                    const finish = finishDate || null;
+
+                    db.pool.query(userBookQuery, [userID, ISBN, status, start, finish], (err) => {
+                        if (err) {
+                            return res.status(500).send('Error tracking book');
+                        }
+                        res.redirect('/protected');
+                    });
+                });
+            });
+        });
+    });
+});
+
 // User is logged in
 app.get('/protected', authenticateToken, (req, res) => {
     const { username } = req.user;

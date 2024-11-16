@@ -18,8 +18,13 @@
     </header>
     <h1>Welcome, {{username}}!</h1>
     <br>
+    <form method="POST" action="/search-add-book">
+        <input type="text" name="searchQuery" placeholder="Search for books" required />
+        <input type="hidden" name="action" value="search" />
+        <button type="submit">Search Books</button>
+</form>
     <br>
-    <h2></h2>
+    <h2>Your Books</h2>
     <form method="GET" action="/protected">
         <label for="readingStatus">Filter by Status:</label>
         <select name="readingStatus" id="readingStatus" onchange="this.form.submit()">
@@ -66,9 +71,6 @@
             {{/each}}
         </tbody>
     </table>
-    <br>
-    <br>
-    <h2></h2>
 </body>
 </html>
 
