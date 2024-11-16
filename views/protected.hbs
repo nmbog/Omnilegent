@@ -21,7 +21,7 @@
     <br>
     <h2></h2>
     <form method="GET" action="/protected">
-        <label for="readingStatus">Filter by Reading Status:</label>
+        <label for="readingStatus">Filter by Status:</label>
         <select name="readingStatus" id="readingStatus" onchange="this.form.submit()">
             <option value="">All</option>
             <option value="Completed" {{#ifEquals readingStatus "Completed"}}selected{{/ifEquals}}>Completed</option>
