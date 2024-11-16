@@ -57,7 +57,15 @@ function authenticateToken(req, res, next) {
 // Handlebars
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');
-app.engine('.hbs', engine({extname: ".hbs"}));
+const hbs = exphbs.create({
+    extname: '.hbs',
+    helpers: {
+        ifEquals: function(arg1, arg2, options) {
+            return arg1 === arg2 ? options.fn(this) : options.inverse(this);
+        }
+    }
+});
+app.engine('.hbs', hbs.engine);
 app.set('view engine', '.hbs');
 
 /* ROUTES */
@@ -120,8 +128,13 @@ app.post('/login', async(req, res) => {
 // User is logged in
 app.get('/protected', authenticateToken, (req, res) => {
     const { username } = req.user;
+    const { readingStatus } = req.query;
     let query1 = "SELECT b.title, a.fullName, g.genre, ubs.readingStatus, DATE_FORMAT(ubs.startDate, '%m-%d-%y') AS startDate, DATE_FORMAT(ubs.finishDate, '%m-%d-%y') AS finishDate FROM UserBookStatus ubs JOIN Books b ON ubs.ISBN = b.ISBN JOIN Authors a ON b.authorID = a.authorID JOIN Genres g ON b.genreID = g.genreID JOIN Users u ON ubs.userID = u.userID WHERE u.userID = (SELECT userID FROM Users WHERE username = ?)";
-    db.pool.query(query1, [username], function(error, rows, fields){
+    if (readingStatus) {
+        query1 += " AND ubs.readingStatus = ?";
+    }
+    const params = readingStatus ? [username, readingStatus] : [username];
+    db.pool.query(query1, params, function(error, rows, fields){
         if (error) {
             return res.status(500).send("Error retrieving user data")
         }
