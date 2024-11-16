@@ -129,6 +129,11 @@ app.get('/protected', authenticateToken, (req, res) => {
     })
 });
 
+app.get('/logout', (req, res) => {
+    res.clearCookie('jwt'); // Clear the JWT cookie
+    res.redirect('/login'); // Redirect the user to the login page
+});
+
 
 /* LISTENER */
 app.listen(PORT, function() {
