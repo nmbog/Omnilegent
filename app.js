@@ -120,7 +120,7 @@ app.post('/login', async(req, res) => {
 // User is logged in
 app.get('/protected', authenticateToken, (req, res) => {
     const { username } = req.user;
-    let query1 = "SELECT b.title AS BookTitle, a.fullName AS AuthorFullName, g.genre AS Genre, ubs.readingStatus AS ReadingStatus, ubs.startDate AS StartDate, ubs.finishDate AS FinishDate FROM UserBookStatus ubs JOIN Books b ON ubs.ISBN = b.ISBN JOIN Authors a ON b.authorID = a.authorID JOIN Genres g ON b.genreID = g.genreID JOIN Users u ON ubs.userID = u.userID WHERE u.username = ?";
+    let query1 = "SELECT b.title, a.fullName, g.genre, ubs.readingStatus, ubs.startDate, ubs.finishDate FROM UserBookStatus ubs JOIN Books b ON ubs.ISBN = b.ISBN JOIN Authors a ON b.authorID = a.authorID JOIN Genres g ON b.genreID = g.genreID JOIN Users u ON ubs.userID = u.userID WHERE u.userID = (SELECT userID FROM Users WHERE username = ?)";
     db.pool.query(query1, [username], function(error, rows, fields){
         if (error) {
             return res.status(500).send("Error retrieving user data")
