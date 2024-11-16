@@ -3,11 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protected Page</title>
+    <title>Omnilegent</title>
 </head>
 <body>
     <h1>Welcome, {{username}}!</h1>
-    <p>You are successfully logged in and can now access protected resources.</p>
+    <table>
+        <thead>
+            <tr>
+                {{#each data.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data}}
+            <tr>
+                <td>
+                    {{this.title}}
+                </td>
+                <td>
+                    {{this.fullName}}
+                </td>
+                <td>
+                    {{this.genre}}
+                </td>
+                <td>
+                    {{this.readingStatus}}
+                </td>
+                <td>
+                    {{this.startDate}}
+                </td>
+                <td>
+                    {{this.finishDate}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 
 </body>
 </html>
