@@ -286,6 +286,51 @@ app.post('/add-new-book', authenticateToken, (req, res) => {
     });
 });
 
+// Delete tracked book
+app.post('/delete-tracked-book', authenticateToken, (req, res) => {
+    const { title } = req.body; // Getting the title of the book to delete
+    const { username } = req.user;
+
+    // Step 1: Get the userID for the logged-in user
+    const findUserIdQuery = "SELECT userID FROM Users WHERE username = ?";
+    db.pool.query(findUserIdQuery, [username], (err, results) => {
+        if (err) {
+            return res.status(500).send('Error finding user ID');
+        }
+
+        const userID = results[0].userID;
+
+        // Step 2: Find the statusID for the book by title and userID
+        const findStatusIDQuery = `
+            SELECT statusID 
+            FROM UserBookStatus
+            JOIN Books ON UserBookStatus.ISBN = Books.ISBN
+            WHERE Books.title = ? AND UserBookStatus.userID = ?
+        `;
+        db.pool.query(findStatusIDQuery, [title, userID], (err, result) => {
+            if (err) {
+                return res.status(500).send('Error finding statusID');
+            }
+            if (result.length === 0) {
+                return res.status(404).send('Book not found in your tracked list');
+            }
+
+            const statusID = result[0].statusID;
+
+            // Step 3: Delete the book from the UserBookStatus table based on the statusID
+            const deleteBookQuery = "DELETE FROM UserBookStatus WHERE statusID = ?";
+            db.pool.query(deleteBookQuery, [statusID], (err) => {
+                if (err) {
+                    return res.status(500).send('Error deleting tracked book');
+                }
+
+                // Redirect back to the protected page after successful deletion
+                res.redirect('/protected');
+            });
+        });
+    });
+});
+
 // User is logged in
 app.get('/protected', authenticateToken, (req, res) => {
     const { username } = req.user;

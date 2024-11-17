@@ -49,7 +49,7 @@
         </thead>
         <tbody>
             {{#each data}}
-            <tr data-value="{{this.statusID}}">
+            <tr data-value="{{this.title}}">
                 <td>
                     {{this.title}}
                 </td>
@@ -68,12 +68,15 @@
                 <td>
                     {{this.finishDate}}
                 </td>
-                <td><button onclick="deleteEntry({{this.statusID}})">Delete</button></td>
+                <td> <form action="/delete-tracked-book" method="POST" style="display:inline;">
+                        <input type="hidden" name="title" value="{{this.title}}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
             </tr>
             {{/each}}
         </tbody>
     </table>
-    <script src="./js/delete_tracked_book.js"></script>
 </body>
 </html>
 
