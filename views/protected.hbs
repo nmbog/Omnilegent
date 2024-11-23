@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Omnilegent</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav>
@@ -16,67 +21,72 @@
     <div class="header">
         <img src="/images/Omnilegent-2.png" alt="Omnilegent logo" class="header-image">
     </div>
-    <h1>Welcome, {{username}}!</h1>
-    <br>
-    <form method="POST" action="/search-add-book">
-        <input type="text" name="searchQuery" placeholder="Search for books" required />
-        <input type="hidden" name="action" value="search" />
-        <button type="submit">Search Books</button>
-</form>
-    <br>
+    <div class="main-container">
+        <h1>Welcome, {{username}}!</h1>
+    </div>
+    <div class="form-container">
+        <form method="POST" action="/search-add-book">
+            <input style="width: 300px;" type="text" name="searchQuery" placeholder="Search for books" class="search-bar" required />
+            <input type="hidden" name="action" value="search" />
+            <button type="submit" id="search-button">Search Books</button>
+        </form>
+    </div>
+    <div class="form-container">
     <h2>Your Books</h2>
-    <form method="GET" action="/protected">
-        <label for="readingStatus">Filter by Status:</label>
-        <select name="readingStatus" id="readingStatus" onchange="this.form.submit()">
-            <option value="">All</option>
-            <option value="Completed" {{#ifEquals readingStatus "Completed"}}selected{{/ifEquals}}>Completed</option>
-            <option value="In Progress" {{#ifEquals readingStatus "In Progress"}}selected{{/ifEquals}}>In Progress</option>
-            <option value="Not Started" {{#ifEquals readingStatus "Not Started"}}selected{{/ifEquals}}>Not Started</option>
-            <option value="Did Not Finish" {{#ifEquals readingStatus "Did Not Finish"}}selected{{/ifEquals}}>Did Not Finish</option>
-        </select>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Genre</th>
-                <th>Status</th>
-                <th>Start</th>
-                <th>Finish</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each data}}
-            <tr data-value="{{this.title}}">
-                <td>
-                    {{this.title}}
-                </td>
-                <td>
-                    {{this.fullName}}
-                </td>
-                <td>
-                    {{this.genre}}
-                </td>
-                <td>
-                    {{this.readingStatus}}
-                </td>
-                <td>
-                    {{this.startDate}}
-                </td>
-                <td>
-                    {{this.finishDate}}
-                </td>
-                <td> <form action="/delete-tracked-book" method="POST" style="display:inline;">
-                        <input type="hidden" name="title" value="{{this.title}}">
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+        <form method="GET" action="/protected">
+            <label for="readingStatus">Filter by Status:</label>
+            <select name="readingStatus" id="readingStatus" onchange="this.form.submit()">
+                <option value="">All</option>
+                <option value="Completed" {{#ifEquals readingStatus "Completed"}}selected{{/ifEquals}}>Completed</option>
+                <option value="In Progress" {{#ifEquals readingStatus "In Progress"}}selected{{/ifEquals}}>In Progress</option>
+                <option value="Not Started" {{#ifEquals readingStatus "Not Started"}}selected{{/ifEquals}}>Not Started</option>
+                <option value="Did Not Finish" {{#ifEquals readingStatus "Did Not Finish"}}selected{{/ifEquals}}>Did Not Finish</option>
+            </select>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th>Status</th>
+                    <th>Start</th>
+                    <th>Finish</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr data-value="{{this.title}}">
+                    <td>
+                        {{this.title}}
+                    </td>
+                    <td>
+                        {{this.fullName}}
+                    </td>
+                    <td>
+                        {{this.genre}}
+                    </td>
+                    <td>
+                        {{this.readingStatus}}
+                    </td>
+                    <td>
+                        {{this.startDate}}
+                    </td>
+                    <td>
+                        {{this.finishDate}}
+                    </td>
+                    <td> 
+                        <form action="/delete-tracked-book" method="POST" style="display:inline;">
+                            <input type="hidden" name="title" value="{{this.title}}">
+                            <button type="submit" id="delete-button">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
 

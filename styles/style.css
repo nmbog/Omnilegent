@@ -47,6 +47,7 @@ input {
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+    border: 1px solid #8d6548;
 }
 
 label {
@@ -59,6 +60,18 @@ label {
 
 #login-button {
     padding: 5px 12px;
+}
+
+#search-button {
+    padding: 10px;
+}
+
+#delete-button {
+    padding: 5px 12px;
+}
+
+.search-bar {
+    border: 1px solid #8d6548;
 }
 
 .button-container {
@@ -75,6 +88,37 @@ button {
     padding: 15px 32px;
     cursor: pointer;
     border: 1px solid;
+}
+
+nav {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a:link {
+    text-decoration: none;
+    color: #8d6548;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+td {
+    padding: 20px;
 }
 
 
