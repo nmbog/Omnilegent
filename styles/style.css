@@ -28,6 +28,39 @@ h1 {
     font-weight: 400;
 }
 
+h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 400;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+label {
+    margin-top: 15px;
+}
+
+#register-button {
+    padding: 5px 12px;
+}
+
+#login-button {
+    padding: 5px 12px;
+}
+
 .button-container {
     display: flex;
     gap: 10px;
@@ -41,4 +74,7 @@ button {
     color: #8d6548;
     padding: 15px 32px;
     cursor: pointer;
+    border: 1px solid;
 }
+
+
