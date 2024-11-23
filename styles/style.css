@@ -41,7 +41,7 @@ h2 {
     gap: 15px;
 }
 
-input {
+input.login, input.register, input.search-bar, input.add-book {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -117,8 +117,61 @@ a:hover {
     cursor: pointer;
 }
 
+a:visited {
+    color: #8d6548;
+    text-decoration: none;
+}
+
 td {
     padding: 20px;
 }
+
+.search-results {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.search-results td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tracked-book-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.tracked-book-form .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding-right: 5px;
+}
+
+.tracked-book-form label {
+    margin-bottom: 5px;
+}
+
+.tracked-submit {
+    padding: 10px 20px;
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.add-book {
+    display: flex;
+    flex-direction: column; 
+    gap: 5px; 
+    padding-bottom: 5px;
+}
+
+
+
+
+
 
 
