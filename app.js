@@ -6,13 +6,17 @@ var mysql = require('mysql');
 var jwt = require('jsonwebtoken');
 var cookieParser = require('cookie-parser');
 var secretKey = 'your_secret_key';
+var path = require('path');
 var express = require('express');
 var app = express();
+
 
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(express.json()); // Parse JSON bodies
 app.use(express.static('public'));
 app.use(cookieParser());
+app.use('/styles', express.static(path.join(__dirname, 'styles')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 PORT = 9124;
 
