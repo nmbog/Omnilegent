@@ -340,15 +340,15 @@ app.get('/protected', authenticateToken, (req, res) => {
     const { username } = req.user;
     const { readingStatus } = req.query;
     let query1 = "SELECT b.title, a.fullName, g.genre, ubs.readingStatus, DATE_FORMAT(ubs.startDate, '%m-%d-%y') AS startDate, DATE_FORMAT(ubs.finishDate, '%m-%d-%y') AS finishDate FROM UserBookStatus ubs JOIN Books b ON ubs.ISBN = b.ISBN JOIN Authors a ON b.authorID = a.authorID JOIN Genres g ON b.genreID = g.genreID JOIN Users u ON ubs.userID = u.userID WHERE u.userID = (SELECT userID FROM Users WHERE username = ?)";
-    if (readingStatus) {
+    if (readingStatus && readingStatus != 'All') {
         query1 += " AND ubs.readingStatus = ?";
     }
-    const params = readingStatus ? [username, readingStatus] : [username];
+    const params = readingStatus && readingStatus !== 'All' ? [username, readingStatus] : [username];
     db.pool.query(query1, params, function(error, rows, fields){
         if (error) {
             return res.status(500).send("Error retrieving user data")
         }
-        res.render('protected', { username, data: rows });
+        res.render('protected', { username, data: rows, readingStatus: readingStatus || 'All' });
     })
 });
 

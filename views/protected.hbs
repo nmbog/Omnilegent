@@ -36,7 +36,7 @@
         <form method="GET" action="/protected">
             <label for="readingStatus">Filter by Status:</label>
             <select name="readingStatus" id="readingStatus" onchange="this.form.submit()">
-                <option value="">All</option>
+                <option value="All" {{#ifEquals readingStatus "All"}}selected{{/ifEquals}}>All</option>
                 <option value="Completed" {{#ifEquals readingStatus "Completed"}}selected{{/ifEquals}}>Completed</option>
                 <option value="In Progress" {{#ifEquals readingStatus "In Progress"}}selected{{/ifEquals}}>In Progress</option>
                 <option value="Not Started" {{#ifEquals readingStatus "Not Started"}}selected{{/ifEquals}}>Not Started</option>
