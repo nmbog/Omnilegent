@@ -62,8 +62,8 @@
                             <label for="finishDate">Finish Date:</label>
                             <input type="date" name="finishDate" />
                         </div>
+                        <button class="tracked-submit" type="submit">Add to Tracked</button>
                     </form>
-                    <button class="tracked-submit" type="submit">Add to Tracked</button>
                 </td>
             </tr>
             {{/each}}
@@ -108,11 +108,12 @@
             <button type="submit">Add Book</button>
         </form>
         {{/if}}
+        <br>
+        <br>
     </div>
-
+    <!-- Back to User's Tracked Books -->
     <div class="main-container">
-        <!-- Back to User's Tracked Books -->
-        <a href="/protected">Back to My Books</a>
+        <a href="/protected">Take me back to my books!</a>
     </div>
 </body>
 </html>
