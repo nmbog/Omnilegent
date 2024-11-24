@@ -290,6 +290,7 @@ app.post('/add-new-book', authenticateToken, (req, res) => {
     });
 });
 
+
 // Delete tracked book
 app.post('/delete-tracked-book', authenticateToken, (req, res) => {
     const { title } = req.body; // Getting the title of the book to delete
@@ -362,6 +363,7 @@ app.get('/logout', (req, res) => {
 app.get('/add-book', (req, res) => {
     res.render('add-book');
 });
+
 
 
 /* LISTENER */

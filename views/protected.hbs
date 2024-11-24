@@ -61,7 +61,7 @@
                     <th>Status</th>
                     <th>Start</th>
                     <th>Finish</th>
-                    <th>Delete</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -86,6 +86,9 @@
                         {{this.finishDate}}
                     </td>
                     <td> 
+                        <button id="delete-button" class="icon-button">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
                         <form action="/delete-tracked-book" method="POST" style="display:inline;">
                             <input type="hidden" name="title" value="{{this.title}}">
                             <button type="submit" id="delete-button" class="icon-button">
