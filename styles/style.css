@@ -226,6 +226,16 @@ hr {
     margin-top: 50px;
 }
 
+button.icon-button {
+    border: none;
+    font-size: 1.5em;
+}
+
+button.icon-button:hover {
+    background-color: #f0eae5;
+    color:#567156;
+}
+
 
 
 

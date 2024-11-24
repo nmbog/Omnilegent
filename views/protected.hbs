@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Omnilegent</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,7 +88,9 @@
                     <td> 
                         <form action="/delete-tracked-book" method="POST" style="display:inline;">
                             <input type="hidden" name="title" value="{{this.title}}">
-                            <button type="submit" id="delete-button">Delete</button>
+                            <button type="submit" id="delete-button" class="icon-button">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
                         </form>
                     </td>
                 </tr>
