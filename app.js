@@ -352,9 +352,15 @@ app.get('/protected', authenticateToken, (req, res) => {
     })
 });
 
+// logout of account
 app.get('/logout', (req, res) => {
     res.clearCookie('jwt'); // Clear the JWT cookie
     res.redirect('/'); // Redirect the user to the login page
+});
+
+// Go to add book page
+app.get('/add-book', (req, res) => {
+    res.render('add-book');
 });
 
 

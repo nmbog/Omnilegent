@@ -14,7 +14,7 @@
     <nav>
         <ul>
             <li>
-                <a href="/add-book">Add a Book</a>
+                <a href="/protected">My Books</a>
             </li>
             <li>
                 |
@@ -27,63 +27,9 @@
     <div class="header">
         <img src="/images/Omnilegent-2.png" alt="Omnilegent logo" class="header-image">
     </div>
-    <div class="main-container">
-        <h1>Search Results for "{{searchQuery}}"</h1>
-    </div>
-    {{#if searchResults.length}}
-    <table class="search-results">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Genre</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each searchResults}}
-            <tr>
-                <td>{{this.BookTitle}}</td>
-                <td>{{this.AuthorFullName}}</td>
-                <td>{{this.Genre}}</td>
-                <td>
-                    <!-- Form to Add Book to Tracked List -->
-                    <form method="POST" action="/search-add-book" class="tracked-book-form">
-                        <input type="hidden" name="action" value="add" />
-                        <input type="hidden" name="ISBN" value="{{this.ISBN}}" />
-                        <div class="form-group">
-                            <label for="readingStatus">Status:</label>
-                            <select name="readingStatus" required>
-                                <option value="Not Started">Not Started</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Completed">Completed</option>
-                                <option value="Did Not Finish">Did Not Finish</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="startDate">Start:</label>
-                            <input type="date" name="startDate" />
-                        </div>
-                        <div class="form-group">
-                            <label for="finishDate">Finish:</label>
-                            <input type="date" name="finishDate" />
-                        </div>
-                        <button class="tracked-submit" type="submit">Add to Tracked</button>
-                    </form>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-    {{else}}
-    <div class="main-container">
-        <p>No books found for "{{searchQuery}}".</p>
-    </div>
-    <hr>
-    <!-- Form to Add a New Book -->
     <div class="form-container">
-        <h1>Can't find what you're looking for?</h1>
         <h2 class="color">Add a Book</h2>
+        <p>Books that you add to our collection will automatically be added to your tracked books as well.</p>
         <form action="/add-new-book" method="POST">
             <label for="ISBN">ISBN:</label>
             <input class="add-book" type="text" id="ISBN" name="ISBN" required>
@@ -114,11 +60,7 @@
 
             <button type="submit">Add Book</button>
         </form>
-        {{/if}}
-        <br>
-        <br>
     </div>
-    <!-- Back to User's Tracked Books -->
     <div class="main-container">
         <a href="/protected">Take me back to my books!</a>
     </div>
