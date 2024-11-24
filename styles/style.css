@@ -50,6 +50,11 @@ input.login, input.register, input.search-bar, input.add-book {
     border: 1px solid #8d6548;
 }
 
+input {
+    border-color: #8d6548;
+    opacity: 0.7;
+}
+
 label {
     margin-top: 15px;
 }
@@ -172,6 +177,20 @@ td {
 .center {
     display: block;
     text-align: center; 
+}
+
+select {
+    border: 1px solid #8d6548;
+    opacity: 0.7;
+}
+
+button:hover {
+    background-color: #9cba9f;
+    color:#f0eae5;
+}
+
+a:hover {
+    color: #9cba9f;
 }
 
 
