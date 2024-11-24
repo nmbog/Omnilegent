@@ -59,6 +59,11 @@ label {
     margin-top: 15px;
 }
 
+th {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 700;
+}
+
 #register-button {
     padding: 5px 12px;
 }
