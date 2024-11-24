@@ -100,6 +100,7 @@ button {
     padding: 15px 32px;
     cursor: pointer;
     border: 1px solid;
+    border-radius: 5px;
 }
 
 nav {
@@ -209,12 +210,13 @@ a:hover {
 }
 
 .color {
-    font-family: "Corinthia", cursive;
+    font-family: "Yesteryear", cursive;
     font-weight: 400;
     color:#567156;
-    font-size: 60px;
+    font-size: 50px;
     margin-top: 5px;
     margin-bottom: 5px;
+    opacity: 0.9;
 }
 
 hr {
