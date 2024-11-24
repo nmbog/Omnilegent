@@ -96,7 +96,7 @@ app.post('/register', async(req, res) => {
         const sql = "INSERT INTO Users (username, userPassword) VALUES (?, ?)";
         db.pool.query(sql, [username, hashedPassword], (err, result) => {
             if (err) throw err;
-            res.status(201).send('User registration was successful');
+            res.redirect('/login');
         });
     } catch (error) {
         res.status(500).send('Error registering user');
@@ -354,7 +354,7 @@ app.get('/protected', authenticateToken, (req, res) => {
 
 app.get('/logout', (req, res) => {
     res.clearCookie('jwt'); // Clear the JWT cookie
-    res.redirect('/login'); // Redirect the user to the login page
+    res.redirect('/'); // Redirect the user to the login page
 });
 
 
