@@ -32,7 +32,8 @@
         <h1>Search Results for "{{searchQuery}}"</h1>
     </div>
     {{#if searchResults.length}}
-    <table class="search-results">
+    <div class="form-container">
+        <table class="search-results">
         <thead>
             <tr>
                 <th>Title</th>
@@ -78,6 +79,8 @@
             {{/each}}
         </tbody>
     </table>
+    </div>
+    
     {{else}}
     <div class="main-container">
         <p>No books found for "{{searchQuery}}".</p>
