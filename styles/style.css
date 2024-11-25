@@ -156,25 +156,6 @@ td {
     padding: 10px; 
 }
 
-.search-results th:nth-child(1), .search-results td:nth-child(1) { 
-    width: 20%; 
-}
-.search-results th:nth-child(2), .search-results td:nth-child(2) { 
-    width: 20%; 
-}
-.search-results th:nth-child(3), .search-results td:nth-child(3) { 
-    width: 15%; 
-}
-.search-results th:nth-child(4), .search-results td:nth-child(4) { 
-    width: 45%; 
-}
-
-.search-results th:nth-child(4) {
-    text-align: center;
-    vertical-align: center;
-
-}
-
 .tracked-book-form {
     display: flex;
     align-items: center;
