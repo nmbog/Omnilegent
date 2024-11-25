@@ -57,8 +57,9 @@ input.login, input.register, input.search-bar, input.add-book {
     font-size: 20px;
 }
 
-.select-status {
+.select-status .add-book {
     height: 40px;
+    font-size: 20px;
 }
 
 input {
