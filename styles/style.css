@@ -141,19 +141,7 @@ td {
 
 .search-results {
     width: 100%;
-    table-layout: fixed;
     border-collapse: collapse;
-}
-
-
-.search-results td, .search-results th {
-    text-align: center;
-    padding: 10px;
-}
-
-.search-results th, .search-results td {
-    text-align: center; 
-    padding: 10px; 
 }
 
 .tracked-book-form {
