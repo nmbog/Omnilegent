@@ -21,7 +21,9 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 PORT = process.env.PORT || 9124;
 
 // DB
-var db = require('./database/db-connector');
+// var db = require('./database/db-connector');
+var db = mysql.createConnection(process.env.JAWSDB_URL);
+db.connect();
 
 // Generate JWT
 function generateToken(username) {
@@ -94,7 +96,7 @@ app.post('/register', async(req, res) => {
         const { username, userPassword } = req.body;
         const hashedPassword = await bcrypt.hash(userPassword, 10);
         const sql = "INSERT INTO Users (username, userPassword) VALUES (?, ?)";
-        db.pool.query(sql, [username, hashedPassword], (err, result) => {
+        db.query(sql, [username, hashedPassword], (err, result) => {
             if (err) throw err;
             res.redirect('/login');
         });
@@ -108,7 +110,7 @@ app.post('/login', async(req, res) => {
     try {
         const { username, userPassword } = req.body;
         const sql = "SELECT * FROM Users WHERE username = ?";
-        db.pool.query(sql, [username], async (err, results) => {
+        db.query(sql, [username], async (err, results) => {
             if (err) throw err;
             if (results.length === 0) {
                 return res.status(401).send('Invalid username or password');
@@ -144,7 +146,7 @@ app.post('/search-add-book', authenticateToken, (req, res) => {
             WHERE b.title LIKE ? OR a.fullName LIKE ? OR g.genre LIKE ?
         `;
 
-        db.pool.query(
+        db.query(
             searchSql,
             [`%${searchQuery}%`, `%${searchQuery}%`, `%${searchQuery}%`],
             (err, results) => {
@@ -178,7 +180,7 @@ app.post('/search-add-book', authenticateToken, (req, res) => {
         const start = startDate || null;
         const finish = finishDate || null;
 
-        db.pool.query(
+        db.query(
             addSql,
             [username, ISBN, status, start, finish],
             (err) => {
@@ -210,7 +212,7 @@ app.post('/add-new-book', authenticateToken, (req, res) => {
         const checkAuthorQuery = `
             SELECT authorID FROM Authors WHERE fullName = ?
         `;
-        db.pool.query(checkAuthorQuery, [author], (err, authorResult) => {
+        db.query(checkAuthorQuery, [author], (err, authorResult) => {
             if (err) {
                 return res.status(500).send('Error checking if author exists');
             }
@@ -226,7 +228,7 @@ app.post('/add-new-book', authenticateToken, (req, res) => {
                     INSERT INTO Authors (fullName)
                     VALUES (?)
                 `;
-                db.pool.query(authorQuery, [author], (err, authorInsertResult) => {
+                db.query(authorQuery, [author], (err, authorInsertResult) => {
                     if (err) {
                         return res.status(500).send('Error adding author');
                     }
@@ -241,7 +243,7 @@ app.post('/add-new-book', authenticateToken, (req, res) => {
                 INSERT IGNORE INTO Genres (genre)
                 VALUES (?)
             `;
-            db.pool.query(genreQuery, [genre], (err, genreResult) => {
+            db.query(genreQuery, [genre], (err, genreResult) => {
                 if (err) {
                     return res.status(500).send('Error adding genre');
                 }
@@ -250,7 +252,7 @@ app.post('/add-new-book', authenticateToken, (req, res) => {
                 const getGenreIdQuery = `
                     SELECT genreID FROM Genres WHERE genre = ?
                 `;
-                db.pool.query(getGenreIdQuery, [genre], (err, genreResult) => {
+                db.query(getGenreIdQuery, [genre], (err, genreResult) => {
                     if (err) {
                         return res.status(500).send('Error retrieving genre ID');
                     }
@@ -263,7 +265,7 @@ app.post('/add-new-book', authenticateToken, (req, res) => {
                         VALUES (?, ?, ?, ?)
                         ON DUPLICATE KEY UPDATE title = VALUES(title)
                     `;
-                    db.pool.query(bookQuery, [ISBN, title, authorID, genreID], (err) => {
+                    db.query(bookQuery, [ISBN, title, authorID, genreID], (err) => {
                         if (err) {
                             return res.status(500).send('Error adding book');
                         }
@@ -277,7 +279,7 @@ app.post('/add-new-book', authenticateToken, (req, res) => {
                         const start = startDate || null;
                         const finish = finishDate || null;
 
-                        db.pool.query(userBookQuery, [userID, ISBN, status, start, finish], (err) => {
+                        db.query(userBookQuery, [userID, ISBN, status, start, finish], (err) => {
                             if (err) {
                                 return res.status(500).send('Error tracking book');
                             }
@@ -298,7 +300,7 @@ app.post('/delete-tracked-book', authenticateToken, (req, res) => {
 
     // Step 1: Get the userID for the logged-in user
     const findUserIdQuery = "SELECT userID FROM Users WHERE username = ?";
-    db.pool.query(findUserIdQuery, [username], (err, results) => {
+    db.query(findUserIdQuery, [username], (err, results) => {
         if (err) {
             return res.status(500).send('Error finding user ID');
         }
@@ -324,7 +326,7 @@ app.post('/delete-tracked-book', authenticateToken, (req, res) => {
 
             // Step 3: Delete the book from the UserBookStatus table based on the statusID
             const deleteBookQuery = "DELETE FROM UserBookStatus WHERE statusID = ?";
-            db.pool.query(deleteBookQuery, [statusID], (err) => {
+            db.query(deleteBookQuery, [statusID], (err) => {
                 if (err) {
                     return res.status(500).send('Error deleting tracked book');
                 }
@@ -345,7 +347,7 @@ app.get('/protected', authenticateToken, (req, res) => {
         query1 += " AND ubs.readingStatus = ?";
     }
     const params = readingStatus && readingStatus !== 'All' ? [username, readingStatus] : [username];
-    db.pool.query(query1, params, function(error, rows, fields){
+    db.query(query1, params, function(error, rows, fields){
         if (error) {
             return res.status(500).send("Error retrieving user data")
         }
