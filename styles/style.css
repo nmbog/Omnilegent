@@ -48,7 +48,7 @@ table {
     margin: 0 auto;
 }
 
-input.login, input.register, input.search-bar, input.add-book {
+select, input.login, input.register, input.search-bar, input.add-book {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -73,10 +73,6 @@ option  {
     height: 30px;
 }
 
-.select-status select, .add-book select {
-    height: 40px;
-    font-size: 20px;
-}
 
 input {
     border-color: 1px solid #8d6548;
