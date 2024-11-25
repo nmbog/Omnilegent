@@ -169,6 +169,11 @@ td {
     width: 45%; 
 }
 
+.search-results th:nth-child(4) {
+    text-align: center;
+    vertical-align: middle;
+}
+
 .tracked-book-form {
     display: flex;
     align-items: center;
