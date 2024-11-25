@@ -54,6 +54,7 @@ input.login, input.register, input.search-bar, input.add-book {
 input {
     border-color: 1px solid #8d6548;
     opacity: 0.7;
+    height: 50px;
 }
 
 label {
