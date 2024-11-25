@@ -60,6 +60,11 @@ input.login, input.register, input.search-bar, input.add-book {
     padding: 5px;
 }
 
+#register-button #login-button {
+    width: 300px;
+    padding: 5px;
+    height: 30px;
+}
 
 .select-status select, .add-book select {
     height: 40px;
