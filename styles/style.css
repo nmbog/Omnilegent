@@ -170,8 +170,8 @@ td {
 }
 
 .search-results th:nth-child(4) {
-    text-align: center;
-    vertical-align: middle;
+    justify-content: flex-start;
+
 }
 
 .tracked-book-form {
