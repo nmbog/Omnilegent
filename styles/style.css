@@ -67,7 +67,7 @@ option  {
     text-align: center;
 }
 
-#register-button #login-button {
+#register-button button #login-button button {
     width: 300px;
     padding: 5px;
     height: 30px;
@@ -120,7 +120,6 @@ button {
     border-color: #8d6548;
     background-color: #f0eae5;
     color: #8d6548;
-    padding: 15px 32px;
     cursor: pointer;
     border: 1px solid;
     border-radius: 5px;
