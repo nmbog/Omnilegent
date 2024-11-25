@@ -151,14 +151,15 @@ td {
 
 
 .tracked-book-form {
-    gap: 5px;
-    padding-right: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    padding-right: 5px;
     gap: 5px;
 }
 
