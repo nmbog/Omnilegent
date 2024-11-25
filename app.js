@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-PORT = 9124;
+PORT = process.env.PORT || 9124;
 
 // DB
 var db = require('./database/db-connector');
