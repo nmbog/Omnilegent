@@ -42,6 +42,10 @@ h2 {
     margin: 0 auto;
 }
 
+table {
+    margin: 0 auto;
+}
+
 input.login, input.register, input.search-bar, input.add-book {
     display: flex;
     flex-direction: column;
