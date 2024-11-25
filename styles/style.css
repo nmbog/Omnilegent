@@ -160,6 +160,8 @@ td {
 .form-group {
     display: flex;
     flex-direction: column;
+    padding-right: 5px;
+    gap: 5px;
 }
 
 .tracked-book-form label {
