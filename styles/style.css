@@ -159,7 +159,7 @@ td {
 
 .form-group {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .tracked-book-form label {
