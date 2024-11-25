@@ -39,6 +39,7 @@ h2 {
     justify-content: center;
     align-items: center;
     gap: 15px;
+    margin: 0 auto;
 }
 
 input.login, input.register, input.search-bar, input.add-book {
