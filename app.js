@@ -368,6 +368,6 @@ app.get('/add-book', (req, res) => {
 
 /* LISTENER */
 app.listen(PORT, function() {
-    console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.');
+    console.log('Express started. Press Ctrl-C to terminate.');
 });
 
