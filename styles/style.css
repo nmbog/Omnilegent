@@ -57,6 +57,11 @@ input.login, input.register, input.search-bar, input.add-book {
     font-size: 20px;
 }
 
+.search-button {
+    width: 300px;
+    text-align: center;
+}
+
 .select-status .add-book {
     height: 40px;
     font-size: 20px;
