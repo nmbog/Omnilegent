@@ -16,20 +16,14 @@ body {
 .header-image {
     max-width: 100%;
     height: auto;
-    width: 300px;
 }
 
 .main-container {
     text-align: center;
+    padding: 0 15px;
 }
 
-h1 {
-    font-family: "Cormorant Garamond", serif;
-    font-weight: 400;
-    padding: 5px;
-}
-
-h2 {
+h1, h2 {
     font-family: "Cormorant Garamond", serif;
     font-weight: 400;
     padding: 5px;
@@ -42,11 +36,9 @@ h2 {
     align-items: center;
     gap: 15px;
     margin: 0 auto;
+    padding: 0 15px;
 }
 
-table {
-    margin: 0 auto;
-}
 
 input.login, input.register, input.search-bar, input.add-book {
     display: flex;
@@ -55,16 +47,18 @@ input.login, input.register, input.search-bar, input.add-book {
     align-items: center;
     margin-bottom: 10px;
     border: 1px solid #8d6548;
-    width: 300px;
+    width: 100%;
     font-size: 20px;
     padding: 5px;
+    box-sizing: border-box;
 }
 
 
 #register-button, #login-button {
-    width: 312px;
-    padding: 5px;
-    height: 30px;
+    width: 100%;
+    padding: 10px;
+    max-width: 300px;
+    height: auto;
 }
 
 
@@ -101,6 +95,7 @@ th {
 
 .button-container {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
@@ -113,6 +108,9 @@ button {
     cursor: pointer;
     border: 1px solid;
     border-radius: 5px;
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
 }
 
 nav {
@@ -126,6 +124,7 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-direction: column;
     gap: 15px;
 }
 
@@ -152,8 +151,10 @@ td {
 }
 
 .search-results {
-    width: 80%;
+    width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
+    margin: 0 auto;
 }
 
 
@@ -165,9 +166,9 @@ td {
 
 .tracked-book-form {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 10px;
-    justify-content: space-evenly;
     width: 100%;
     max-width: 400px;
 }
