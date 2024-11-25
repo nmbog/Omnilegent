@@ -142,17 +142,31 @@ td {
 .search-results {
     width: 100%;
     table-layout: fixed;
-    margin: 0 auto;
     border-collapse: collapse;
 }
 
 
 .search-results td, .search-results th {
     text-align: center;
+    padding: 10px;
 }
 
-.search-results th {
-    vertical-align: middle;
+.search-results th, .search-results td {
+    text-align: center; 
+    padding: 10px; 
+}
+
+.search-results th:nth-child(1), .search-results td:nth-child(1) { 
+    width: 20%; 
+}
+.search-results th:nth-child(2), .search-results td:nth-child(2) { 
+    width: 20%; 
+}
+.search-results th:nth-child(3), .search-results td:nth-child(3) { 
+    width: 15%; 
+}
+.search-results th:nth-child(4), .search-results td:nth-child(4) { 
+    width: 45%; 
 }
 
 .tracked-book-form {
@@ -161,6 +175,7 @@ td {
     gap: 10px;
     justify-content: flex-start;
     width: 100%;
+    max-width: 400px;
 }
 
 .form-group {
