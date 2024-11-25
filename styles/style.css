@@ -150,14 +150,13 @@ td {
 }
 
 
-/*
-.tracked-book-form .form-group {
+.tracked-book-form {
     display: flex;
     flex-direction: column;
     gap: 5px;
     padding-right: 5px;
 }
-*/
+
 
 
 .tracked-book-form label {
