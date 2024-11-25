@@ -62,7 +62,7 @@ input.login, input.register, input.search-bar, input.add-book {
     text-align: center;
 }
 
-.select-status .add-book {
+.select-status select, .add-book select {
     height: 40px;
     font-size: 20px;
 }
