@@ -140,9 +140,16 @@ td {
 }
 
 .search-results {
-    width: 100%;
+    width: 80%;
     border-collapse: collapse;
 }
+
+
+.search-results td, .search-results th {
+    text-align: center;
+    padding: 10px;
+}
+
 
 .tracked-book-form {
     display: flex;
