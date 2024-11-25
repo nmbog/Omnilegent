@@ -167,7 +167,7 @@ td {
 }
 
 .tracked-submit {
-    display:flex;
+    display: inline-block;
     margin-top: 10px;
 }
 
