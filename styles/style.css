@@ -67,7 +67,7 @@ option  {
     text-align: center;
 }
 
-#register-button button #login-button button {
+#register-button, #login-button {
     width: 300px;
     padding: 5px;
     height: 30px;
