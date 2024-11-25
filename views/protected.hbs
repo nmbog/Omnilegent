@@ -86,12 +86,12 @@
                         {{this.finishDate}}
                     </td>
                     <td> 
-                        <button id="delete-button" class="icon-button">
+                        <button id="delete-button" id="icon-button">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </button>
                         <form action="/delete-tracked-book" method="POST" style="display:inline;">
                             <input type="hidden" name="title" value="{{this.title}}">
-                            <button type="submit" id="delete-button" class="icon-button">
+                            <button type="submit" id="delete-button">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </form>

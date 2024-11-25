@@ -224,13 +224,13 @@ hr {
     margin-top: 50px;
 }
 
-.icon-button {
+#icon-button {
     border: none;
     font-size: 1.5em;
     color:#8d6548;
 }
 
-.icon-button:hover {
+#icon-button:hover {
     background-color: #f0eae5;
     color:#567156;
 }
