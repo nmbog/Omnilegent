@@ -249,9 +249,11 @@ hr {
 }
 
 #icon-button {
+    vertical-align: center;
     border: none;
     font-size: 1.5em;
     color:#8d6548;
+    padding-left: 10px;
 }
 
 #icon-button:hover {
