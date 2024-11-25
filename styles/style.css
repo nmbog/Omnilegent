@@ -55,6 +55,7 @@ input.login, input.register, input.search-bar, input.add-book {
     border: 1px solid #8d6548;
     width: 300px;
     font-size: 20px;
+    padding: 5px;
 }
 
 
