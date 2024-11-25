@@ -151,8 +151,6 @@ td {
 
 
 .tracked-book-form {
-    display: flex;
-    flex-direction: column;
     gap: 5px;
     padding-right: 5px;
 }
@@ -161,7 +159,7 @@ td {
     display: flex;
     flex-direction: column;
     padding-right: 5px;
-    gap: 5px;
+    gap:
 }
 
 .tracked-book-form label {
