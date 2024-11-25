@@ -57,6 +57,10 @@ input.login, input.register, input.search-bar, input.add-book {
     font-size: 20px;
 }
 
+.select-status {
+    height: 40px;
+}
+
 input {
     border-color: 1px solid #8d6548;
     opacity: 0.7;
