@@ -148,21 +148,20 @@ td {
     text-align: center;
     vertical-align: middle;
 }
-/*
+
 .tracked-book-form {
     display: flex;
     gap: 5px;
 }
-*/
 
-/*
+
 .tracked-book-form .form-group {
     display: flex;
     flex-direction: column;
     gap: 5px;
     padding-right: 5px;
 }
-*/
+
 
 .tracked-book-form label {
     margin-bottom: 5px;
