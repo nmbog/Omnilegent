@@ -157,7 +157,10 @@ td {
     padding-right: 5px;
 }
 
-
+.form-group {
+    display: flex;
+    flex-direction: row;
+}
 
 .tracked-book-form label {
     margin-bottom: 5px;
