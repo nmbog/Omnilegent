@@ -48,7 +48,7 @@ table {
     margin: 0 auto;
 }
 
-select, input.login, input.register, input.search-bar, input.add-book {
+input.login, input.register, input.search-bar, input.add-book {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -74,7 +74,7 @@ option  {
 }
 
 
-input {
+input, select {
     border-color: 1px solid #8d6548;
     opacity: 0.7;
     height: 40px;
