@@ -169,10 +169,8 @@ td {
 }
 
 .tracked-submit {
-    padding: 10px 20px;
     display: block;
     margin-top: 10px;
-    width: 100%;
 }
 
 .add-book {
@@ -236,13 +234,6 @@ button.icon-button:hover {
     color:#567156;
 }
 
-.tracked-submit {
-    border: none;
-}
-
-.tracked-submit {
-    color:#567156;
-}
 
 
 
