@@ -366,6 +366,27 @@ app.get('/add-book', (req, res) => {
     res.render('add-book');
 });
 
+// Render Update Book Page
+app.get('/update-book', authenticateToken, (req, res) => {
+    const { ISBN } = req.query;
+    const { username } = req.user;
+
+    const sql = `
+        SELECT ubs.ISBN, b.title, a.fullName AS author, g.genre, ubs.readingStatus, ubs.startDate, ubs.finishDate
+        FROM UserBookStatus ubs
+        JOIN Books b ON ubs.ISBN = b.ISBN
+        JOIN Authors a ON b.authorID = a.authorID
+        JOIN Genres g ON b.genreID = g.genreID
+        WHERE ubs.ISBN = ? AND ubs.userID = (SELECT userID FROM Users WHERE username = ?)
+    `;
+
+    db.query(sql, [ISBN, username], (err, results) => {
+        if (err || results.length === 0) {
+            return res.status(500).send("Error retrieving book details.");
+        }
+        res.render('update-book', { book: results[0], username });
+    });
+});
 
 
 /* LISTENER */

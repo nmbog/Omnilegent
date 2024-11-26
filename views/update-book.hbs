@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omnilegent</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav>
@@ -27,7 +35,27 @@
         <img src="/images/Omnilegent-2.png" alt="Omnilegent logo" class="header-image">
     </div>
     <div class="form-container">
-        
+        <h1>Update Book: {{book.title}}</h1>
+        <form method="POST" action="/update-book">
+            <input type="hidden" name="ISBN" value="{{book.ISBN}}">
+            <label for="readingStatus">Reading Status:</label>
+            <select name="readingStatus" id="readingStatus">
+                <option value="Completed" {{#ifEquals book.readingStatus "Completed"}}selected{{/ifEquals}}>Completed</option>
+                <option value="In Progress" {{#ifEquals book.readingStatus "In Progress"}}selected{{/ifEquals}}>In Progress</option>
+                <option value="Not Started" {{#ifEquals book.readingStatus "Not Started"}}selected{{/ifEquals}}>Not Started</option>
+                <option value="Did Not Finish" {{#ifEquals book.readingStatus "Did Not Finish"}}selected{{/ifEquals}}>Did Not Finish</option>
+            </select>
+            <br>
+            <label for="startDate">Start Date:</label>
+            <input type="date" name="startDate" id="startDate" value="{{book.startDate}}">
+            <br>
+            <label for="finishDate">Finish Date:</label>
+            <input type="date" name="finishDate" id="finishDate" value="{{book.finishDate}}">
+            <br>
+            <button type="submit">Update</button>
+        </form>
+        <br>
+        <a href="/dashboard">Cancel</a>
     </div>
 </body>
 </html>
