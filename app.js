@@ -338,6 +338,30 @@ app.post('/delete-tracked-book', authenticateToken, (req, res) => {
     });
 });
 
+// Update Book Details
+app.post('/update-book', authenticateToken, (req, res) => {
+    const { ISBN, readingStatus, startDate, finishDate } = req.body;
+    const { username } = req.user;
+
+    const sql = `
+        UPDATE UserBookStatus
+        SET readingStatus = ?, startDate = ?, finishDate = ?
+        WHERE ISBN = ? AND userID = (SELECT userID FROM Users WHERE username = ?)
+    `;
+
+    db.query(
+        sql,
+        [readingStatus || null, startDate || null, finishDate || null, ISBN, username],
+        (err) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Error updating book details.");
+            }
+            res.redirect('/dashboard');
+        }
+    );
+});
+
 // User is logged in
 app.get('/dashboard', authenticateToken, (req, res) => {
     const { username } = req.user;
