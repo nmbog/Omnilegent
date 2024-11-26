@@ -171,7 +171,6 @@ td {
     gap: 10px;
     justify-content: space-evenly;
     width: 100%;
-    max-width: 400px;
 }
 
 .form-group {
