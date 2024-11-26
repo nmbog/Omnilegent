@@ -185,7 +185,6 @@ td {
 
 .tracked-submit {
     display: block;
-    margin-top: 10px;
 }
 
 .add-book {
@@ -247,7 +246,7 @@ hr {
     font-size: 1.5em;
     color:#8d6548;
     padding-left: 10px;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 #icon-button:hover {
