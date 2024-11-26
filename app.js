@@ -468,7 +468,7 @@ app.post('/update-book', authenticateToken, (req, res) => {
 
     const readingStatusValue = readingStatus || null;
     const startDateValue = startDate || null;
-    const finishDateValue = finishDate || n
+    const finishDateValue = finishDate || null;
 
     db.query(query, [readingStatusValue, startDateValue, finishDateValue, username, ISBN], (err) => {
         if (err) return res.status(500).send("Error updating book details.");
