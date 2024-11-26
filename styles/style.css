@@ -94,7 +94,7 @@ th {
     padding: 10px;
 }
 
-#delete-button {
+#delete-button, #update-button {
     padding: 5px 12px;
 }
 
