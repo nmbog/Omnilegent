@@ -121,7 +121,7 @@ app.post('/login', async(req, res) => {
                 // Generate JWT token
                 const token = jwt.sign({ username: user.username}, secretKey, { expiresIn: '1h' });
                 res.cookie('jwt', token, { httpOnly: true, secure: false, maxAge: 3600000});
-                return res.redirect('/protected');
+                return res.redirect('/dashboard');
             } else {
                 return res.status(401).send('Invalid username or password');
             }
@@ -188,7 +188,7 @@ app.post('/search-add-book', authenticateToken, (req, res) => {
                     console.error(err);
                     return res.status(500).send("Error adding book to tracked list.");
                 }
-                res.redirect('/protected'); // Redirect back to the user's tracked books
+                res.redirect('/dashboard'); // Redirect back to the user's tracked books
             }
         );
     }
@@ -283,7 +283,7 @@ app.post('/add-new-book', authenticateToken, (req, res) => {
                             if (err) {
                                 return res.status(500).send('Error tracking book');
                             }
-                            res.redirect('/protected');
+                            res.redirect('/dashboard');
                         });
                     });
                 });
@@ -331,15 +331,15 @@ app.post('/delete-tracked-book', authenticateToken, (req, res) => {
                     return res.status(500).send('Error deleting tracked book');
                 }
 
-                // Redirect back to the protected page after successful deletion
-                res.redirect('/protected');
+                // Redirect back to the dashboard page after successful deletion
+                res.redirect('/dashboard');
             });
         });
     });
 });
 
 // User is logged in
-app.get('/protected', authenticateToken, (req, res) => {
+app.get('/dashboard', authenticateToken, (req, res) => {
     const { username } = req.user;
     const { readingStatus } = req.query;
     let query1 = "SELECT b.title, a.fullName, g.genre, ubs.readingStatus, DATE_FORMAT(ubs.startDate, '%m-%d-%y') AS startDate, DATE_FORMAT(ubs.finishDate, '%m-%d-%y') AS finishDate FROM UserBookStatus ubs JOIN Books b ON ubs.ISBN = b.ISBN JOIN Authors a ON b.authorID = a.authorID JOIN Genres g ON b.genreID = g.genreID JOIN Users u ON ubs.userID = u.userID WHERE u.userID = (SELECT userID FROM Users WHERE username = ?)";
@@ -351,7 +351,7 @@ app.get('/protected', authenticateToken, (req, res) => {
         if (error) {
             return res.status(500).send("Error retrieving user data")
         }
-        res.render('protected', { username, data: rows, readingStatus: readingStatus || 'All' });
+        res.render('dashboard', { username, data: rows, readingStatus: readingStatus || 'All' });
     })
 });
 

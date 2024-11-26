@@ -42,7 +42,7 @@
     <br>
     <div class="form-container">
     <h2 class="color">Books</h2>
-        <form method="GET" action="/protected">
+        <form method="GET" action="/dashboard">
             <label for="readingStatus">Filter by Status:</label>
             <select name="readingStatus" id="readingStatus" onchange="this.form.submit()">
                 <option value="All" {{#ifEquals readingStatus "All"}}selected{{/ifEquals}}>All</option>
