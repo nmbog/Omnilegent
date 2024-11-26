@@ -207,6 +207,8 @@ select {
     width: 121px;
     height: 44px;
     font-size: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
 button:hover {
