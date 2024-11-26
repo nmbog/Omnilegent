@@ -466,7 +466,11 @@ app.post('/update-book', authenticateToken, (req, res) => {
         WHERE u.username = ? AND ubs.ISBN = ?
     `;
 
-    db.query(query, [readingStatus, startDate, finishDate, username, ISBN], (err) => {
+    const readingStatusValue = readingStatus || null;
+    const startDateValue = startDate || null;
+    const finishDateValue = finishDate || n
+
+    db.query(query, [readingStatusValue, startDateValue, finishDateValue, username, ISBN], (err) => {
         if (err) return res.status(500).send("Error updating book details.");
         res.redirect('/dashboard');
     });
