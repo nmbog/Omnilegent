@@ -207,7 +207,7 @@ app.post('/password-reset', (req, res) => {
             
             // Send the token to the user's email (this part can be extended with actual email sending functionality)
             // In this case, we are just returning the token as part of the response
-            res.json({ message: 'Password reset request successful', resetToken });
+            res.redirect('/reset-password');
         });
     });
 });
