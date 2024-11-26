@@ -105,6 +105,7 @@ th {
     display: flex;
     gap: 10px;
     justify-content: center;
+    align-items: center;
     margin-top: 20px;
 }
 
@@ -255,7 +256,10 @@ hr {
 }
 
 .home {
-    max-width: 50%;
+    flex: 1;
+    max-width: 150px;
+    padding: 10px;
+    text-align: center;
 }
 
 
