@@ -35,7 +35,7 @@
         <img src="/images/Omnilegent-2.png" alt="Omnilegent logo" class="header-image">
     </div>
     <div class="form-container">
-        <h1>Update Book: {{book.title}}</h1>
+        <h1 class="color">Update Book:</h1> <h1>{{book.title}}</h1>
         <form method="POST" action="/update-book">
             <input type="hidden" name="ISBN" value="{{book.ISBN}}">
             <label for="readingStatus">Reading Status:</label>
