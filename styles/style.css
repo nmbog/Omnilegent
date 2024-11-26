@@ -106,7 +106,6 @@ th {
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
-    max-width: 10%;
 }
 
 button {
@@ -257,7 +256,6 @@ hr {
 
 .home {
     max-width: 50%;
-
 }
 
 
