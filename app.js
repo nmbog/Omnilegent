@@ -497,6 +497,11 @@ app.get('/password-reset', (req, res) => {
     res.render('password-reset');
 });
 
+// Render page to enter token and reset password
+app.get('/reset-password', (req, res) => {
+    res.render('reset-password');
+});
+
 // Render Update Book Page
 app.get('/update-book', authenticateToken, (req, res) => {
     const { username } = req.user;
