@@ -220,23 +220,32 @@ app.post('/password-reset', (req, res) => {
 app.post('/reset-password', async (req, res) => {
     const { resetToken, newPassword } = req.body;
 
-    // Verify token
     jwt.verify(resetToken, secretKey, async (err, decoded) => {
         if (err) {
+            console.error('Token verification error:', err);
             return res.status(403).send('Invalid or expired token');
         }
 
         const { username } = decoded;
+        console.log('Decoded token:', decoded); // Debugging
 
         // Hash the new password
         const hashedPassword = await bcrypt.hash(newPassword, 10);
+        console.log('Hashed password:', hashedPassword); // Debugging
 
-        // Update password in the database
+        // Update the password in the database
         const updateSql = "UPDATE Users SET userPassword = ?, resetToken = NULL WHERE username = ?";
         db.query(updateSql, [hashedPassword, username], (err, result) => {
             if (err) {
+                console.error('Error updating password:', err);
                 return res.status(500).send('Error updating password');
             }
+
+            console.log('Update result:', result); // Debugging
+            if (result.affectedRows === 0) {
+                return res.status(400).send('No user found to update');
+            }
+
             res.send('Password reset successful');
         });
     });
