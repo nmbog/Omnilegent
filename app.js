@@ -338,29 +338,24 @@ app.post('/delete-tracked-book', authenticateToken, (req, res) => {
     });
 });
 
-// Update Book Details
+// Update tracked book
 app.post('/update-book', authenticateToken, (req, res) => {
     const { ISBN, readingStatus, startDate, finishDate } = req.body;
     const { username } = req.user;
 
-    const sql = `
-        UPDATE UserBookStatus
-        SET readingStatus = ?, startDate = ?, finishDate = ?
-        WHERE ISBN = ? AND userID = (SELECT userID FROM Users WHERE username = ?)
+    const query = `
+        UPDATE UserBookStatus ubs
+        JOIN Users u ON u.userID = ubs.userID
+        SET ubs.readingStatus = ?, ubs.startDate = ?, ubs.finishDate = ?
+        WHERE u.username = ? AND ubs.ISBN = ?
     `;
 
-    db.query(
-        sql,
-        [readingStatus || null, startDate || null, finishDate || null, ISBN, username],
-        (err) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send("Error updating book details.");
-            }
-            res.redirect('/dashboard');
-        }
-    );
+    db.query(query, [readingStatus, startDate, finishDate, username, ISBN], (err) => {
+        if (err) return res.status(500).send("Error updating book details.");
+        res.redirect('/dashboard');
+    });
 });
+
 
 // User is logged in
 app.get('/dashboard', authenticateToken, (req, res) => {
@@ -392,23 +387,23 @@ app.get('/add-book', (req, res) => {
 
 // Render Update Book Page
 app.get('/update-book', authenticateToken, (req, res) => {
-    const { ISBN } = req.query;
     const { username } = req.user;
+    const { title } = req.query;
 
-    const sql = `
-        SELECT ubs.ISBN, b.title, a.fullName AS author, g.genre, ubs.readingStatus, ubs.startDate, ubs.finishDate
-        FROM UserBookStatus ubs
-        JOIN Books b ON ubs.ISBN = b.ISBN
-        JOIN Authors a ON b.authorID = a.authorID
+    const query = `
+        SELECT b.ISBN, b.title, g.genre, ubs.readingStatus, ubs.startDate, ubs.finishDate
+        FROM Books b
+        JOIN UserBookStatus ubs ON b.ISBN = ubs.ISBN
+        JOIN Users u ON ubs.userID = u.userID
         JOIN Genres g ON b.genreID = g.genreID
-        WHERE ubs.ISBN = ? AND ubs.userID = (SELECT userID FROM Users WHERE username = ?)
+        WHERE u.username = ? AND b.title = ?
     `;
 
-    db.query(sql, [ISBN, username], (err, results) => {
-        if (err || results.length === 0) {
-            return res.status(500).send("Error retrieving book details.");
-        }
-        res.render('update-book', { book: results[0], username });
+    db.query(query, [username, title], (err, results) => {
+        if (err) return res.status(500).send("Error retrieving book details.");
+        if (results.length === 0) return res.status(404).send("Book not found.");
+
+        res.render('update-book', { book: results[0] });
     });
 });
 
