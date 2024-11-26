@@ -39,7 +39,7 @@
         <form method="POST" action="/update-book">
             <input type="hidden" name="ISBN" value="{{book.ISBN}}">
             <label for="readingStatus">Reading Status:</label>
-            <select name="readingStatus" id="readingStatus">
+            <select name="readingStatus" id="readingStatus" class="update-book">
                 <option value="Completed" {{#ifEquals book.readingStatus "Completed"}}selected{{/ifEquals}}>Completed</option>
                 <option value="In Progress" {{#ifEquals book.readingStatus "In Progress"}}selected{{/ifEquals}}>In Progress</option>
                 <option value="Not Started" {{#ifEquals book.readingStatus "Not Started"}}selected{{/ifEquals}}>Not Started</option>
@@ -47,12 +47,12 @@
             </select>
             <br>
             <label for="startDate">Start Date:</label>
-            <input type="date" name="startDate" id="startDate" value="{{book.startDate}}">
+            <input type="date" name="startDate" id="startDate" class="update-book" value="{{book.startDate}}">
             <br>
             <label for="finishDate">Finish Date:</label>
-            <input type="date" name="finishDate" id="finishDate" value="{{book.finishDate}}">
+            <input type="date" name="finishDate" id="finishDate" class="update-book" value="{{book.finishDate}}">
             <br>
-            <button type="submit">Update</button>
+            <button type="submit" class="update-book">Update</button>
         </form>
         <br>
         <a href="/dashboard">Cancel</a>
