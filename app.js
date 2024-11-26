@@ -9,7 +9,7 @@ var secretKey = process.env.SECRET_KEY;
 var path = require('path');
 var express = require('express');
 var app = express();
-
+const nodemailer = require('nodemailer');
 
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(express.json()); // Parse JSON bodies
@@ -74,6 +74,34 @@ const hbs = exphbs.create({
 app.engine('.hbs', hbs.engine);
 app.set('view engine', '.hbs');
 
+// Configure Nodemailer transporter
+const transporter = nodemailer.createTransport({
+    service: 'gmail', 
+    auth: {
+        user: process.env.EMAIL, 
+        pass: process.env.PASSWORD   
+    }
+});
+
+function sendPasswordResetEmail(email, resetToken) {
+    const resetLink = `https://yourdomain.com/reset-password?token=${resetToken}`;
+
+    const mailOptions = {
+        from: 'your-email@gmail.com',
+        to: email,
+        subject: 'Password Reset Request',
+        text: `Click the following link to reset your password: ${resetLink}`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log('Error sending email: ', error);
+        } else {
+            console.log('Password reset email sent: ' + info.response);
+        }
+    });
+}
+
 /* ROUTES */
 app.get('/', function(req, res)
     {
@@ -91,19 +119,42 @@ app.get('/login', (req, res) => {
 });
 
 // Register User
-app.post('/register', async(req, res) => {
+app.post('/register', async (req, res) => {
     try {
-        const { username, userPassword } = req.body;
-        const hashedPassword = await bcrypt.hash(userPassword, 10);
-        const sql = "INSERT INTO Users (username, userPassword) VALUES (?, ?)";
-        db.query(sql, [username, hashedPassword], (err, result) => {
+        const { username, userPassword, email } = req.body;
+        
+        // Check if email already exists
+        const checkEmailQuery = "SELECT * FROM Users WHERE email = ?";
+        db.query(checkEmailQuery, [email], async (err, results) => {
             if (err) throw err;
-            res.redirect('/login');
+            if (results.length > 0) {
+                return res.status(400).send('Email is already associated with an account');
+            }
+
+            // Hash password
+            const hashedPassword = await bcrypt.hash(userPassword, 10);
+
+            // Insert new user into the Users table
+            const sql = "INSERT INTO Users (username, userPassword, email) VALUES (?, ?, ?)";
+            db.query(sql, [username, hashedPassword, email], (err, result) => {
+                if (err) throw err;
+
+                // Generate JWT token
+                const token = generateToken(username);
+
+                // Update user with token in the Users table
+                const updateTokenQuery = "UPDATE Users SET token = ? WHERE userID = ?";
+                db.query(updateTokenQuery, [token, result.insertId], (err) => {
+                    if (err) throw err;
+                    res.redirect('/login');
+                });
+            });
         });
     } catch (error) {
         res.status(500).send('Error registering user');
     }
 });
+
 
 // User Login
 app.post('/login', async(req, res) => {
@@ -129,6 +180,36 @@ app.post('/login', async(req, res) => {
     } catch (error) {
         res.status(500).send('Error loggin in');
     }
+});
+
+// Request password reset
+app.post('/password-reset', (req, res) => {
+    const { username, email } = req.body;
+
+    const sql = "SELECT * FROM Users WHERE username = ? AND email = ?";
+    db.query(sql, [username, email], (err, results) => {
+        if (err) {
+            return res.status(500).send('Error checking user');
+        }
+        if (results.length === 0) {
+            return res.status(404).send('No user found with this username and email');
+        }
+
+        const user = results[0];
+
+        // Generate reset token and save it in the database
+        const resetToken = generateToken(username); // Using JWT to generate the token
+        const updateSql = "UPDATE Users SET resetToken = ? WHERE userID = ?";
+        db.query(updateSql, [resetToken, user.userID], (err, result) => {
+            if (err) {
+                return res.status(500).send('Error updating reset token');
+            }
+            
+            // Send the token to the user's email (this part can be extended with actual email sending functionality)
+            // In this case, we are just returning the token as part of the response
+            res.json({ message: 'Password reset request successful', resetToken });
+        });
+    });
 });
 
 // Search Books
@@ -404,6 +485,32 @@ app.get('/update-book', authenticateToken, (req, res) => {
         if (results.length === 0) return res.status(404).send("Book not found.");
 
         res.render('update-book', { book: results[0] });
+    });
+});
+
+// Reset password with token
+app.post('/reset-password', async (req, res) => {
+    const { resetToken, newPassword } = req.body;
+
+    // Verify token
+    jwt.verify(resetToken, secretKey, async (err, decoded) => {
+        if (err) {
+            return res.status(403).send('Invalid or expired token');
+        }
+
+        const { username } = decoded;
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Update password in the database
+        const updateSql = "UPDATE Users SET userPassword = ?, resetToken = NULL WHERE username = ?";
+        db.query(updateSql, [hashedPassword, username], (err, result) => {
+            if (err) {
+                return res.status(500).send('Error updating password');
+            }
+            res.send('Password reset successful');
+        });
     });
 });
 
