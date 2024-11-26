@@ -197,7 +197,7 @@ app.post('/password-reset', (req, res) => {
         }
 
         // Generate a password reset token (could be JWT or random string)
-        const resetToken = generateToken();
+        const resetToken = generateToken(username);
 
         // Store the token in the Users table (for later verification)
         const updateTokenQuery = "UPDATE Users SET resetToken = ? WHERE userID = ?";
