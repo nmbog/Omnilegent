@@ -186,31 +186,35 @@ app.post('/login', async(req, res) => {
 app.post('/password-reset', (req, res) => {
     const { username, email } = req.body;
 
-    const sql = "SELECT * FROM Users WHERE username = ? AND email = ?";
-    db.query(sql, [username, email], (err, results) => {
+    // Check if the username and email exist in the Users table
+    const checkUserQuery = "SELECT * FROM Users WHERE username = ? AND email = ?";
+    db.query(checkUserQuery, [username, email], (err, results) => {
         if (err) {
-            return res.status(500).send('Error checking user');
+            return res.status(500).send('Error checking user details');
         }
         if (results.length === 0) {
-            return res.status(404).send('No user found with this username and email');
+            return res.status(400).send('No account found with the provided username and email');
         }
 
-        const user = results[0];
+        // Generate a password reset token (could be JWT or random string)
+        const resetToken = generateResetToken();
 
-        // Generate reset token and save it in the database
-        const resetToken = generateToken(username); // Using JWT to generate the token
-        const updateSql = "UPDATE Users SET resetToken = ? WHERE userID = ?";
-        db.query(updateSql, [resetToken, user.userID], (err, result) => {
+        // Store the token in the Users table (for later verification)
+        const updateTokenQuery = "UPDATE Users SET resetToken = ? WHERE userID = ?";
+        db.query(updateTokenQuery, [resetToken, results[0].userID], (err) => {
             if (err) {
                 return res.status(500).send('Error updating reset token');
             }
-            
-            // Send the token to the user's email (this part can be extended with actual email sending functionality)
-            // In this case, we are just returning the token as part of the response
-            res.redirect('/reset-password');
+
+            // Send the token to the user's email (this can be done using a mailing service)
+            sendPasswordResetEmail(email, resetToken);
+
+            // Redirect to a confirmation page or notify the user
+            res.send('Password reset instructions have been sent to your email');
         });
     });
 });
+
 
 // Reset password with token
 app.post('/reset-password', async (req, res) => {
