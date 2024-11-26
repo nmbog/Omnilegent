@@ -84,10 +84,10 @@ const transporter = nodemailer.createTransport({
 });
 
 function sendPasswordResetEmail(email, resetToken) {
-    const resetLink = `https://yourdomain.com/reset-password?token=${resetToken}`;
+    const resetLink = `https://www.omnilegent.co/reset-password?token=${resetToken}`;
 
     const mailOptions = {
-        from: 'your-email@gmail.com',
+        from: process.env.EMAIL,
         to: email,
         subject: 'Password Reset Request',
         text: `Click the following link to reset your password: ${resetLink}`
