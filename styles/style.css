@@ -51,7 +51,8 @@ table {
 }
 
 input.login, input.register, input.search-bar, input.add-book, select.add-book,
-button.add-book, input.update-book, select.update-book, button.update-book {
+button.add-book, input.update-book, select.update-book, button.update-book,
+input.password-reset, button.password-reset {
     display: flex;
     flex-direction: column;
     justify-content: center;
