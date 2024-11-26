@@ -40,6 +40,7 @@
             <input type="hidden" name="ISBN" value="{{book.ISBN}}">
             <label for="readingStatus">Reading Status:</label>
             <select name="readingStatus" id="readingStatus" class="update-book">
+                <option value="">--Select--</option>
                 <option value="Completed" {{#ifEquals book.readingStatus "Completed"}}selected{{/ifEquals}}>Completed</option>
                 <option value="In Progress" {{#ifEquals book.readingStatus "In Progress"}}selected{{/ifEquals}}>In Progress</option>
                 <option value="Not Started" {{#ifEquals book.readingStatus "Not Started"}}selected{{/ifEquals}}>Not Started</option>
