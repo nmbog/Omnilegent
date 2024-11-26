@@ -381,7 +381,7 @@ app.get('/logout', (req, res) => {
 });
 
 // Go to add book page
-app.get('/add-book', (req, res) => {
+app.get('/add-book', authenticateToken, (req, res) => {
     res.render('add-book');
 });
 
