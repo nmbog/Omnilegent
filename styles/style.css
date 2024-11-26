@@ -122,6 +122,8 @@ button {
 
 nav {
     position: fixed;
+    background-color: #f0eae5;
+    opacity: 1.0;
     top: 20px;
     right: 20px;
     z-index: 1000;
