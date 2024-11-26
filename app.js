@@ -227,11 +227,9 @@ app.post('/reset-password', async (req, res) => {
         }
 
         const { username } = decoded;
-        console.log('Decoded token:', decoded); // Debugging
 
         // Hash the new password
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        console.log('Hashed password:', hashedPassword); // Debugging
 
         // Update the password in the database
         const updateSql = "UPDATE Users SET userPassword = ?, resetToken = NULL WHERE username = ?";
@@ -240,8 +238,6 @@ app.post('/reset-password', async (req, res) => {
                 console.error('Error updating password:', err);
                 return res.status(500).send('Error updating password');
             }
-
-            console.log('Update result:', result); // Debugging
             if (result.affectedRows === 0) {
                 return res.status(400).send('No user found to update');
             }
