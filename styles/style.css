@@ -50,7 +50,8 @@ table {
     margin: 0 auto;
 }
 
-input.login, input.register, input.search-bar, input.add-book, select.add-book {
+input.login, input.register, input.search-bar, input.add-book, select.add-book,
+button.add-book {
     display: flex;
     flex-direction: column;
     justify-content: center;
