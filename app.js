@@ -501,9 +501,16 @@ app.get('/password-reset', (req, res) => {
     res.render('password-reset');
 });
 
-// Render page to enter token and reset password
+// Route to display the reset password form
 app.get('/reset-password', (req, res) => {
-    res.render('reset-password');
+    const { token } = req.query; // Assuming the token is passed as a query parameter
+
+    if (!token) {
+        return res.status(400).send('Token is missing');
+    }
+
+    // Render the reset password page with the token
+    res.render('reset-password', { resetToken: token });
 });
 
 // Render Update Book Page
