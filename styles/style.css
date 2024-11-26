@@ -52,7 +52,7 @@ table {
 
 input.login, input.register, input.search-bar, input.add-book, select.add-book,
 button.add-book, input.update-book, select.update-book, button.update-book,
-input.password-reset, button.password-reset {
+input.password-reset, button.password-reset, input.register, button.register {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -65,13 +65,13 @@ input.password-reset, button.password-reset {
     text-align: center;
 }
 
-
+/*
 #register-button, #login-button {
     width: 312px;
     padding: 5px;
     height: 30px;
 }
-
+*/
 
 input {
     border-color: 1px solid #8d6548;
