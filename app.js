@@ -317,7 +317,7 @@ app.post('/add-new-book', authenticateToken, (req, res) => {
 
     // Get the userID for the logged-in user
     const findUserIdQuery = "SELECT userID FROM Users WHERE username = ?";
-    db.pool.query(findUserIdQuery, [username], (err, results) => {
+    db.query(findUserIdQuery, [username], (err, results) => {
         if (err) {
             return res.status(500).send('Error finding user ID');
         }
