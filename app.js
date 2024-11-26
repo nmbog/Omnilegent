@@ -430,7 +430,7 @@ app.post('/delete-tracked-book', authenticateToken, (req, res) => {
             JOIN Books ON UserBookStatus.ISBN = Books.ISBN
             WHERE Books.title = ? AND UserBookStatus.userID = ?
         `;
-        db.pool.query(findStatusIDQuery, [title, userID], (err, result) => {
+        db.query(findStatusIDQuery, [title, userID], (err, result) => {
             if (err) {
                 return res.status(500).send('Error finding statusID');
             }
