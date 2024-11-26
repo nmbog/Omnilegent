@@ -212,6 +212,32 @@ app.post('/password-reset', (req, res) => {
     });
 });
 
+// Reset password with token
+app.post('/reset-password', async (req, res) => {
+    const { resetToken, newPassword } = req.body;
+
+    // Verify token
+    jwt.verify(resetToken, secretKey, async (err, decoded) => {
+        if (err) {
+            return res.status(403).send('Invalid or expired token');
+        }
+
+        const { username } = decoded;
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Update password in the database
+        const updateSql = "UPDATE Users SET userPassword = ?, resetToken = NULL WHERE username = ?";
+        db.query(updateSql, [hashedPassword, username], (err, result) => {
+            if (err) {
+                return res.status(500).send('Error updating password');
+            }
+            res.send('Password reset successful');
+        });
+    });
+});
+
 // Search Books
 app.post('/search-add-book', authenticateToken, (req, res) => {
     const { username } = req.user;
@@ -466,6 +492,11 @@ app.get('/add-book', authenticateToken, (req, res) => {
     res.render('add-book');
 });
 
+// Go to Password Reset Page
+app.get('/password-reset', (req, res) => {
+    res.render('password-reset');
+});
+
 // Render Update Book Page
 app.get('/update-book', authenticateToken, (req, res) => {
     const { username } = req.user;
@@ -485,32 +516,6 @@ app.get('/update-book', authenticateToken, (req, res) => {
         if (results.length === 0) return res.status(404).send("Book not found.");
 
         res.render('update-book', { book: results[0] });
-    });
-});
-
-// Reset password with token
-app.post('/reset-password', async (req, res) => {
-    const { resetToken, newPassword } = req.body;
-
-    // Verify token
-    jwt.verify(resetToken, secretKey, async (err, decoded) => {
-        if (err) {
-            return res.status(403).send('Invalid or expired token');
-        }
-
-        const { username } = decoded;
-
-        // Hash the new password
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-        // Update password in the database
-        const updateSql = "UPDATE Users SET userPassword = ?, resetToken = NULL WHERE username = ?";
-        db.query(updateSql, [hashedPassword, username], (err, result) => {
-            if (err) {
-                return res.status(500).send('Error updating password');
-            }
-            res.send('Password reset successful');
-        });
     });
 });
 
