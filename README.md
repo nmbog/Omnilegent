@@ -1,11 +1,10 @@
 # Omnilegent
-Omnilegent
 
 Omnilegent is a full-stack web application designed to help readers track their books and reading progress. Whether you're diving into a new series or revisiting a favorite classic, Omnilegent simplifies organizing your reading journey.
 
 The application is live at https://www.Omnilegent.co.
 
-Features
+### Features
 
 - Personalized Book Tracking: Log the books you’re currently reading, plan to read, or have finished.
 - Progress Updates: Update your reading status, start date, and finish date with ease.
@@ -13,14 +12,14 @@ Features
 - Dynamic Interface: User-friendly design powered by Handlebars for dynamic content rendering.
 - Robust Backend: Server logic ensures reliable performance and data security.
   
-Technologies Used
+### Technologies Used
 Backend: Node.js, Express.js
 Frontend: Handlebars.js
 Database: MySQL
 Authentication: Bcrypt, JWT
 Deployment: (Specify the hosting service used, e.g., Render, Railway, or Heroku)
 
-How It Works
+### How It Works
 1. Sign Up/Login: Create an account to access personalized features.
 2. Add a Book: Add books to your library by filling out the details, or by searching
    the database!
@@ -28,15 +27,15 @@ How It Works
 4. Stay Organized: View and manage your entire book collection. Sort your
    tracked books by status -- "Not Started", "In Progress", "Completed", or "Did Not Finish"
 
-Getting Started Locally
+### Getting Started Locally
 While the project is live at Omnilegent.co, you can also set it up locally by following these steps:
 
-Prerequisites
+### Prerequisites
 - Node.js installed
 - MySQL server configured
 - A modern browser
 
-Installation
+### Installation
 - Clone the repository:
   git clone https://github.com/your-username/omnilegent.git  
 - Navigate to the project directory:
