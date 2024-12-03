@@ -138,16 +138,7 @@ app.post('/register', async (req, res) => {
             const sql = "INSERT INTO Users (username, userPassword, email) VALUES (?, ?, ?)";
             db.query(sql, [username, hashedPassword, email], (err, result) => {
                 if (err) throw err;
-
-                // Generate JWT token
-                const token = generateToken(username);
-
-                // Update user with token in the Users table
-                const updateTokenQuery = "UPDATE Users SET token = ? WHERE userID = ?";
-                db.query(updateTokenQuery, [token, result.insertId], (err) => {
-                    if (err) throw err;
-                    res.redirect('/login');
-                });
+                res.redirect('/login');
             });
         });
     } catch (error) {
