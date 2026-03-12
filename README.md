@@ -2,7 +2,7 @@
 
 Omnilegent is a full-stack web application designed to help readers track their books and reading progress. Whether you're diving into a new series or revisiting a favorite classic, Omnilegent simplifies organizing your reading journey.
 
-The application is live at https://www.Omnilegent.co.
+The application was live at https://www.Omnilegent.co.
 
 ### Features
 
